@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School Management System</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f1f5f9;color:#1e293b}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#2563eb,#1e40af)}
+.lb{width:370px;max-width:92%;background:#fff;padding:32px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,.2)}
+.lb h1{text-align:center;color:#1e40af;margin-bottom:6px}
+.lb p{text-align:center;color:#64748b;margin-bottom:20px}
+.ig{margin-bottom:14px}
+.ig label{display:block;font-weight:bold;margin-bottom:6px}
+input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff}
+input:focus,select:focus{outline:0;border-color:#2563eb}
+.b{border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:14px;background:#e2e8f0}
+.p{background:#2563eb;color:#fff}.d{background:#dc2626;color:#fff}.e{background:#f59e0b;color:#fff}.s{background:#16a34a;color:#fff}
+.lb .b{width:100%;padding:13px;font-size:16px}
+#err{display:none;margin-top:14px;padding:10px;background:#fee2e2;color:#b91c1c;border-radius:8px;text-align:center}
+#app{display:none}
+aside{position:fixed;left:0;top:0;width:230px;height:100vh;background:#0f172a;padding:20px 12px;overflow-y:auto}
+aside h2{color:#fff;text-align:center;margin-bottom:20px}
+.n{display:block;width:100%;padding:12px;margin-bottom:6px;border:0;border-radius:8px;background:transparent;color:#fff;text-align:left;font-size:15px;cursor:pointer}
+.n:hover,.n.on{background:#2563eb}
+.lo{background:#dc2626;margin-top:16px}
+main{margin-left:230px;padding:22px}
+.top{background:#fff;padding:16px 20px;border-radius:12px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.top h1{color:#1e40af;font-size:22px}
+.box,.card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,.06)}
+.welcome{background:#2563eb;color:#fff;padding:24px;border-radius:12px;margin-bottom:18px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card h3{color:#64748b;margin-bottom:8px;font-size:16px}
+.num{font-size:30px;font-weight:bold;color:#2563eb}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.search{margin-bottom:16px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:11px;border-bottom:1px solid #e2e8f0;text-align:left;white-space:nowrap}
+th{background:#f8fafc;color:#475569}
+.act{display:flex;gap:6px}
+.empty{text-align:center;padding:24px;color:#64748b}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:16px;z-index:9}
+.mf{width:550px;max-width:100%;max-height:90vh;overflow-y:auto;background:#fff;padding:22px;border-radius:12px}
+.mf h2{margin-bottom:16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mb2{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
+.ar{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #e2e8f0;gap:10px}
+.ar select{width:140px}
+#al{margin:16px 0}
+@media(max-width:1000px){.cards{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){aside{position:static;width:100%;height:auto;padding:12px}#nav{display:flex;overflow-x:auto;gap:6px}.n{width:auto;white-space:nowrap;margin:0}.lo{margin-top:0}main{margin:0;padding:12px}.cards,.grid{grid-template-columns:1fr}}
+@media print{aside,.top,.b{display:none}main{margin:0}}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <form id="lf" class="lb">
+    <h1>🏫 School Management</h1>
+    <p>Administrator Login</p>
+    <div class="ig"><label>Email</label><input id="em" type="email" placeholder="Enter email" autocomplete="username" required></div>
+    <div class="ig"><label>Password</label><input id="pw" type="password" placeholder="Enter password" autocomplete="current-password" required></div>
+    <button class="b p">Login</button>
+    <div id="err">Email ama Password waa khalad.</div>
+  </form>
+</div>
+
+<div id="app">
+  <aside><h2>🏫 SCHOOL</h2><div id="nav"></div></aside>
+  <main>
+    <div class="top"><h1 id="title">Dashboard</h1><strong id="who"></strong></div>
+    <div id="view"></div>
+  </main>
+</div>
+
+<div id="modal" class="modal"><form id="mf" class="mf"></form></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// 👇 Ku beddel firebaseConfig-kaaga (Project settings → Your apps → Web)
+const firebaseConfig = {
+  apiKey: "AIzaSyDeuEFLEYKtO8F0JjPwtwh4LMb_rmAsQQw",
+  authDomain: "school-management-e7b40.firebaseapp.com",
+  projectId: "school-management-e7b40",
+  storageBucket: "school-management-e7b40.firebasestorage.app",
+  messagingSenderId: "1063978784127",
+  appId: "1:1063978784127:web:9275eb2fe4b746eea4b64a"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const auth = getAuth(fbApp);
+const db = getFirestore(fbApp);
+const $ = id => document.getElementById(id);
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const today = () => new Date().toISOString().split("T")[0];
+const sel = a => a.map(x => [x, x]);
+const grade = m => m>=90?"A+":m>=80?"A":m>=70?"B":m>=60?"C":m>=50?"D":"F";
+
+const KEYS = ["students","classes","teachers","attendance","fees","results"];
+const S = {}; KEYS.forEach(k => S[k] = []);
+const sName = id => (S.students.find(s => s.id === id) || {}).name || "Unknown";
+const stuOpts = () => S.students.map(s => [s.id, s.name + " (" + s.id + ")"]);
+
+/* Each page: singular name, form fields, table columns */
+const T = {
+  students:{s:"Student",
+    f:[{k:"id",l:"Student ID"},{k:"name",l:"Full Name"},{k:"gender",l:"Gender",o:()=>sel(["Male","Female"])},{k:"className",l:"Class",o:()=>sel(S.classes.map(c=>c.name))},{k:"phone",l:"Phone",opt:1}],
+    c:[["ID",r=>r.id],["Name",r=>r.name],["Gender",r=>r.gender],["Class",r=>r.className],["Phone",r=>r.phone||"-"]]},
+  classes:{s:"Class",
+    f:[{k:"name",l:"Class Name"},{k:"section",l:"Section"},{k:"teacher",l:"Teacher"}],
+    c:[["Class",r=>r.name],["Section",r=>r.section],["Teacher",r=>r.teacher],["Students",r=>S.students.filter(s=>s.className===r.name).length]]},
+  teachers:{s:"Teacher",
+    f:[{k:"id",l:"Teacher ID"},{k:"name",l:"Full Name"},{k:"subject",l:"Subject"},{k:"phone",l:"Phone",opt:1}],
+    c:[["ID",r=>r.id],["Name",r=>r.name],["Subject",r=>r.subject],["Phone",r=>r.phone||"-"]]},
+  fees:{s:"Payment",
+    f:[{k:"studentId",l:"Student",o:stuOpts},{k:"amount",l:"Amount",ty:"number"},{k:"date",l:"Date",ty:"date"},{k:"method",l:"Method",o:()=>sel(["Cash","Bank","Mobile Money"])}],
+    c:[["Student",r=>sName(r.studentId)],["Amount",r=>"$"+Number(r.amount).toFixed(2)],["Date",r=>r.date],["Method",r=>r.method]]},
+  results:{s:"Result",
+    f:[{k:"studentId",l:"Student",o:stuOpts},{k:"subject",l:"Subject"},{k:"marks",l:"Marks (0-100)",ty:"number",mx:100}],
+    pre:d=>{d.grade=grade(d.marks)},
+    c:[["Student",r=>sName(r.studentId)],["Subject",r=>r.subject],["Marks",r=>r.marks],["Grade",r=>r.grade]]}
+};
+const PAGES = [["dashboard","🏠","Dashboard"],["students","👨‍🎓","Students"],["classes","🏫","Classes"],["teachers","👨‍🏫","Teachers"],["attendance","📅","Attendance"],["fees","💰","Fees"],["results","📊","Results"],["reports","📄","Reports"]];
+let page = "dashboard", cur = null;
+
+const save = k => setDoc(doc(db, "school", k), { items: S[k] }).catch(() => alert("Xogta lama keydin. Hubi internet-ka iyo Rules-ka."));
+
+/* ---------- Views ---------- */
+function stats(){
+  const fee = S.fees.reduce((a,f) => a + (+f.amount || 0), 0);
+  return [["Students",S.students.length],["Classes",S.classes.length],["Teachers",S.teachers.length],["Fees Paid","$"+fee.toFixed(2)]]
+    .map(([a,b]) => `<div class="card"><h3>${a}</h3><div class="num">${b}</div></div>`).join("");
+}
+function dash(){
+  $("view").innerHTML = `<div class="welcome"><h2>Welcome to School Management System 👋</h2><p style="margin-top:8px">Manage your school from one place.</p></div><div class="cards">${stats()}</div>`;
+}
+function rep(){
+  $("view").innerHTML = `<div class="box"><h2>School Reports</h2><p style="color:#64748b;margin:6px 0 18px">Current school statistics</p><div class="cards">${stats()}</div><button class="b p" style="margin-top:18px" onclick="print()">🖨 Print Report</button></div>`;
+}
+function list(k){
+  const t = T[k];
+  $("view").innerHTML = `<div class="box"><div class="hd"><h2>${t.s}s</h2><button class="b p" onclick="openForm('${k}',-1)">+ Add ${t.s}</button></div>
+  <input id="q" class="search" placeholder="Search..." oninput="rows('${k}')">
+  <div class="tw"><table><thead><tr><th>#</th>${t.c.map(c=>`<th>${c[0]}</th>`).join("")}<th>Actions</th></tr></thead><tbody id="tb"></tbody></table></div></div>`;
+  rows(k);
+}
+function rows(k){
+  const t = T[k], q = ($("q").value || "").toLowerCase();
+  const h = S[k].map((r,i)=>[r,i]).filter(([r]) => t.c.map(c=>c[1](r)).join(" ").toLowerCase().includes(q))
+    .map(([r,i]) => `<tr><td>${i+1}</td>${t.c.map(c=>`<td>${esc(c[1](r))}</td>`).join("")}<td><div class="act"><button class="b e" onclick="openForm('${k}',${i})">Edit</button><button class="b d" onclick="del('${k}',${i})">Delete</button></div></td></tr>`).join("");
+  $("tb").innerHTML = h || `<tr><td colspan="9" class="empty">Nothing found.</td></tr>`;
+}
+function att(){
+  $("view").innerHTML = `<div class="box"><h2>Attendance</h2><div class="grid" style="margin-top:14px">
+  <div class="ig"><label>Date</label><input type="date" id="ad" value="${today()}" onchange="attList()"></div>
+  <div class="ig"><label>Class</label><select id="ac" onchange="attList()"><option value="">Select Class</option>${S.classes.map(c=>`<option value="${esc(c.name)}">${esc(c.name)} - ${esc(c.section)}</option>`).join("")}</select></div></div>
+  <div id="al"></div><button class="b s" onclick="attSave()">Save Attendance</button></div>`;
+  attList();
+}
+function attList(){
+  const c = $("ac").value, d = $("ad").value, st = S.students.filter(s => s.className === c);
+  $("al").innerHTML = !c ? `<p class="empty">Select a class first.</p>` : !st.length ? `<p class="empty">No students in this class.</p>` :
+    st.map(s => {
+      const o = S.attendance.find(a => a.date===d && a.className===c && a.studentId===s.id), v = o ? o.status : "Present";
+      return `<div class="ar"><span>${esc(s.name)}</span><select data-id="${esc(s.id)}">${["Present","Absent","Late"].map(x=>`<option ${x===v?"selected":""}>${x}</option>`).join("")}</select></div>`;
+    }).join("");
+}
+function attSave(){
+  const c = $("ac").value, d = $("ad").value;
+  if (!c || !d) return alert("Select date and class first.");
+  S.attendance = S.attendance.filter(a => !(a.date===d && a.className===c));
+  document.querySelectorAll("#al select").forEach(s => S.attendance.push({date:d, className:c, studentId:s.dataset.id, status:s.value}));
+  save("attendance"); alert("Attendance saved successfully.");
+}
+
+/* ---------- Add / edit / delete ---------- */
+function openForm(k, i){
+  const t = T[k], r = i < 0 ? {} : S[k][i]; cur = {k, i};
+  $("mf").innerHTML = `<h2>${i<0?"Add":"Edit"} ${t.s}</h2><div class="grid">${t.f.map(f => `<div class="ig"><label>${f.l}</label>` +
+    (f.o ? `<select name="${f.k}" ${f.opt?"":"required"}><option value="">Select</option>${f.o().map(([v,l])=>`<option value="${esc(v)}" ${v===r[f.k]?"selected":""}>${esc(l)}</option>`).join("")}</select>`
+         : `<input name="${f.k}" type="${f.ty||"text"}" ${f.opt?"":"required"} ${f.ty==="number"?`min="0" step="any"`:""} ${f.mx?`max="${f.mx}"`:""} value="${esc(r[f.k] ?? (f.ty==="date" ? today() : ""))}">`) + `</div>`).join("")}</div>
+    <div class="mb2"><button type="button" class="b" onclick="closeM()">Cancel</button><button class="b p">Save ${t.s}</button></div>`;
+  $("modal").style.display = "flex";
+}
+function closeM(){ $("modal").style.display = "none"; }
+function del(k, i){
+  const r = S[k][i];
+  if (!confirm("Delete " + (r.name || "this record") + "?")) return;
+  S[k].splice(i, 1); save(k); route();
+}
+$("mf").onsubmit = e => {
+  e.preventDefault();
+  const {k, i} = cur, t = T[k], d = {};
+  new FormData($("mf")).forEach((v, n) => d[n] = String(v).trim());
+  t.f.forEach(f => { if (f.ty === "number") d[f.k] = +d[f.k]; });
+  if (d.id && S[k].some((x, j) => x.id === d.id && j !== i)) return alert("This ID already exists.");
+  if (t.pre) t.pre(d);
+  i < 0 ? S[k].push(d) : S[k][i] = d;
+  save(k); closeM(); route();
+};
+$("modal").onclick = e => { if (e.target === $("modal")) closeM(); };
+
+/* ---------- Navigation ---------- */
+function route(p){
+  page = p || page;
+  document.querySelectorAll(".n[data-p]").forEach(b => b.classList.toggle("on", b.dataset.p === page));
+  $("title").textContent = PAGES.find(x => x[0] === page)[2];
+  page === "dashboard" ? dash() : page === "attendance" ? att() : page === "reports" ? rep() : list(page);
+}
+$("nav").innerHTML = PAGES.map(([id,ic,tt]) => `<button class="n" data-p="${id}">${ic} ${tt}</button>`).join("") + `<button class="n lo" id="lo">🚪 Logout</button>`;
+document.querySelectorAll(".n[data-p]").forEach(b => b.onclick = () => route(b.dataset.p));
+$("lo").onclick = () => signOut(auth);
+
+Object.assign(window, { openForm, closeM, del, rows, attList, attSave });
+
+/* ---------- Login (Firebase Authentication) ---------- */
+$("lf").onsubmit = async e => {
+  e.preventDefault();
+  $("err").style.display = "none";
+  try { await signInWithEmailAndPassword(auth, $("em").value.trim(), $("pw").value); }
+  catch (x) { $("err").style.display = "block"; $("pw").value = ""; }
+};
+
+onAuthStateChanged(auth, async user => {
+  if (user) {
+    try {
+      await Promise.all(KEYS.map(async k => {
+        const s = await getDoc(doc(db, "school", k));
+        S[k] = s.exists() ? (s.data().items || []) : [];
+      }));
+    } catch (x) { alert("Xogta lama soo akhrin karo. Hubi Rules-ka."); }
+    $("who").textContent = user.email;
+    $("login").style.display = "none";
+    $("app").style.display = "block";
+    route("dashboard");
+  } else {
+    $("app").style.display = "none";
+    $("login").style.display = "flex";
+  }
+});
+</script>
+</body>
+</html>
