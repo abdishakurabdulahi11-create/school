@@ -58,7 +58,7 @@ th{background:#f8fafc;color:#475569}
 
 <div id="login">
   <form id="lf" class="lb">
-    <h1>🏫 School Management</h1>
+    <h1 id="lname">🏫 School Management</h1>
     <p>Administrator Login</p>
     <div class="ig"><label>Email</label><input id="em" type="email" placeholder="Enter email" autocomplete="username" required></div>
     <div class="ig"><label>Password</label><input id="pw" type="password" placeholder="Enter password" autocomplete="current-password" required></div>
@@ -68,7 +68,7 @@ th{background:#f8fafc;color:#475569}
 </div>
 
 <div id="app">
-  <aside><h2>🏫 SCHOOL</h2><div id="nav"></div></aside>
+  <aside><h2 id="sname">🏫 SCHOOL</h2><div id="nav"></div></aside>
   <main>
     <div class="top"><h1 id="title">Dashboard</h1><strong id="who"></strong></div>
     <div id="view"></div>
@@ -80,7 +80,7 @@ th{background:#f8fafc;color:#475569}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // 👇 Ku beddel firebaseConfig-kaaga (Project settings → Your apps → Web)
 const firebaseConfig = {
@@ -95,23 +95,26 @@ const firebaseConfig = {
 const fbApp = initializeApp(firebaseConfig);
 const auth = getAuth(fbApp);
 const db = getFirestore(fbApp);
+const SCHOOL_NAME = "School Management System"; // 👈 magaca dugsiga (beddel dugsi kasta)
 const auth2 = getAuth(initializeApp(firebaseConfig, "secondary")); // si admin-ku u sii jiro marka user cusub la abuuro
 const $ = id => document.getElementById(id);
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const today = () => new Date().toISOString().split("T")[0];
+document.title = SCHOOL_NAME; $("lname").textContent = "🏫 " + SCHOOL_NAME; $("sname").textContent = "🏫 " + SCHOOL_NAME;
 const sel = a => a.map(x => [x, x]);
 const grade = m => m>=90?"A+":m>=80?"A":m>=70?"B":m>=60?"C":m>=50?"D":"F";
 
 const KEYS = ["students","classes","teachers","attendance","fees","results"];
 const S = {}; KEYS.forEach(k => S[k] = []);
+const paidOf = id => S.fees.filter(f => f.studentId === id).reduce((a, f) => a + (+f.amount || 0), 0);
 const sName = id => (S.students.find(s => s.id === id) || {}).name || "Unknown";
 const stuOpts = () => S.students.map(s => [s.id, s.name + " (" + s.id + ")"]);
 
 /* Each page: singular name, form fields, table columns */
 const T = {
   students:{s:"Student",
-    f:[{k:"id",l:"Student ID"},{k:"name",l:"Full Name"},{k:"gender",l:"Gender",o:()=>sel(["Male","Female"])},{k:"className",l:"Class",o:()=>sel(S.classes.map(c=>c.name))},{k:"phone",l:"Phone",opt:1}],
-    c:[["ID",r=>r.id],["Name",r=>r.name],["Gender",r=>r.gender],["Class",r=>r.className],["Phone",r=>r.phone||"-"]]},
+    f:[{k:"id",l:"Student ID"},{k:"name",l:"Full Name"},{k:"gender",l:"Gender",o:()=>sel(["Male","Female"])},{k:"className",l:"Class",o:()=>sel(S.classes.map(c=>c.name))},{k:"phone",l:"Phone",opt:1},{k:"fee",l:"Total Fee ($)",ty:"number",opt:1}],
+    c:[["ID",r=>r.id],["Name",r=>r.name],["Gender",r=>r.gender],["Class",r=>r.className],["Phone",r=>r.phone||"-"],["Balance",r=>"$"+((+r.fee||0)-paidOf(r.id)).toFixed(2)]]},
   classes:{s:"Class",
     f:[{k:"name",l:"Class Name"},{k:"section",l:"Section"},{k:"teacher",l:"Teacher"}],
     c:[["Class",r=>r.name],["Section",r=>r.section],["Teacher",r=>r.teacher],["Students",r=>S.students.filter(s=>s.className===r.name).length]]},
@@ -126,21 +129,37 @@ const T = {
     pre:d=>{d.grade=grade(d.marks)},
     c:[["Student",r=>sName(r.studentId)],["Subject",r=>r.subject],["Marks",r=>r.marks],["Grade",r=>r.grade]]}
 };
-const PAGES = [["dashboard","🏠","Dashboard"],["students","👨‍🎓","Students"],["classes","🏫","Classes"],["teachers","👨‍🏫","Teachers"],["attendance","📅","Attendance"],["fees","💰","Fees"],["results","📊","Results"],["reports","📄","Reports"],["users","🔑","Users"],["myfees","💰","My Fees"],["myresults","📊","My Results"]];
+const PAGES = [["dashboard","🏠","Dashboard"],["students","👨‍🎓","Students"],["classes","🏫","Classes"],["teachers","👨‍🏫","Teachers"],["attendance","📅","Attendance"],["fees","💰","Fees"],["results","📊","Results"],["reports","📄","Reports"],["users","🔑","Users"],["myfees","💰","My Fees"],["myresults","📊","My Results"],["myatt","📅","My Attendance"]];
 let page = "dashboard", cur = null;
 
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const SNAP = {}; KEYS.forEach(k => SNAP[k] = {});
+const snapOf = k => { SNAP[k] = {}; S[k].forEach(r => SNAP[k][r._id] = JSON.stringify(r)); };
+/* Record kasta document u gaar ah: kaliya wixii beddelmay ayaa la qoraa */
+async function flush(k){
+  const ops = [];
+  S[k].forEach(r => { if (!r._id) r._id = newId(); const j = JSON.stringify(r); if (SNAP[k][r._id] !== j) ops.push(["s", r._id, r, j]); });
+  Object.keys(SNAP[k]).forEach(id => { if (!S[k].some(r => r._id === id)) ops.push(["d", id]); });
+  for (let i = 0; i < ops.length; i += 400) {
+    const bt = writeBatch(db);
+    ops.slice(i, i + 400).forEach(o => o[0] === "s" ? bt.set(doc(db, k, o[1]), o[2]) : bt.delete(doc(db, k, o[1])));
+    await bt.commit();
+  }
+  ops.forEach(o => { if (o[0] === "s") SNAP[k][o[1]] = o[3]; else delete SNAP[k][o[1]]; });
+}
 const save = (k, ids = []) => {
-  setDoc(doc(db, "school", k), { items: S[k] }).catch(() => alert("Xogta lama keydin. Hubi internet-ka iyo Rules-ka."));
+  flush(k).catch(() => alert("Xogta lama keydin. Hubi internet-ka iyo Rules-ka."));
   sync(k, ids);
 };
-/* Portal: hal document arday kasta (fees + results) si ardaygu u arko kuwiisa kaliya */
+/* Portal: hal document arday kasta (fees, results, attendance) si ardaygu u arko kuwiisa kaliya */
 function sync(k, ids){
-  if (!["students","fees","results"].includes(k)) return;
+  if (!["students","fees","results","attendance"].includes(k)) return;
   [...new Set(ids)].filter(Boolean).forEach(id => {
     const ref = doc(db, "portal", id), st = S.students.find(s => s.id === id);
     const rs = S.results.filter(r => r.studentId === id);
-    if (ROLE === "teacher") { if (st) setDoc(ref, { results: rs }, { merge: true }).catch(() => {}); return; }
-    if (st) setDoc(ref, { name: st.name, className: st.className, fees: S.fees.filter(f => f.studentId === id), results: rs }).catch(() => {});
+    const at = S.attendance.filter(a => a.studentId === id).map(a => ({ date: a.date, status: a.status }));
+    if (ROLE === "teacher") { if (st) setDoc(ref, { results: rs, att: at }, { merge: true }).catch(() => {}); return; }
+    if (st) setDoc(ref, { name: st.name, className: st.className, due: Number(st.fee) || 0, fees: S.fees.filter(f => f.studentId === id), results: rs, att: at }).catch(() => {});
     else deleteDoc(ref).catch(() => {});
   });
 }
@@ -156,11 +175,11 @@ function dash(){
   $("view").innerHTML = `<div class="welcome"><h2>Welcome to School Management System 👋</h2><p style="margin-top:8px">Manage your school from one place.</p></div><div class="cards">${stats()}</div>`;
 }
 function rep(){
-  $("view").innerHTML = `<div class="box"><h2>School Reports</h2><p style="color:#64748b;margin:6px 0 18px">Current school statistics</p><div class="cards">${stats()}</div><button class="b p" style="margin-top:18px" onclick="print()">🖨 Print Report</button> <button class="b s" style="margin-top:18px" onclick="syncAll()">🔄 Sync Student Portal</button></div>`;
+  $("view").innerHTML = `<div class="box"><h2>School Reports</h2><p style="color:#64748b;margin:6px 0 18px">Current school statistics</p><div class="cards">${stats()}</div><button class="b p" style="margin-top:18px" onclick="print()">🖨 Print Report</button> <button class="b s" style="margin-top:18px" onclick="syncAll()">🔄 Sync Student Portal</button> <button class="b" style="margin-top:18px" onclick="backup()">💾 Backup</button> <button class="b" style="margin-top:18px" onclick="migrate()">📥 Import old data</button></div>`;
 }
 function list(k){
   const t = T[k];
-  $("view").innerHTML = `<div class="box"><div class="hd"><h2>${t.s}s</h2><button class="b p" onclick="openForm('${k}',-1)">+ Add ${t.s}</button></div>
+  $("view").innerHTML = `<div class="box"><div class="hd"><h2>${t.s}s</h2><div class="act"><button class="b" onclick="exportCSV('${k}')">⬇ CSV</button><button class="b p" onclick="openForm('${k}',-1)">+ Add ${t.s}</button></div></div>
   <input id="q" class="search" placeholder="Search..." oninput="rows('${k}')">
   <div class="tw"><table><thead><tr><th>#</th>${t.c.map(c=>`<th>${c[0]}</th>`).join("")}<th>Actions</th></tr></thead><tbody id="tb"></tbody></table></div></div>`;
   rows(k);
@@ -190,8 +209,8 @@ function attSave(){
   const c = $("ac").value, d = $("ad").value;
   if (!c || !d) return alert("Select date and class first.");
   S.attendance = S.attendance.filter(a => !(a.date===d && a.className===c));
-  document.querySelectorAll("#al select").forEach(s => S.attendance.push({date:d, className:c, studentId:s.dataset.id, status:s.value}));
-  save("attendance"); alert("Attendance saved successfully.");
+  document.querySelectorAll("#al select").forEach(s => S.attendance.push({_id:(d + "_" + c + "_" + s.dataset.id).replace(/[\/\s]/g, "-"), date:d, className:c, studentId:s.dataset.id, status:s.value}));
+  save("attendance", S.students.filter(s => s.className === c).map(s => s.id)); alert("Attendance saved successfully.");
 }
 
 /* ---------- Student portal views ---------- */
@@ -203,7 +222,7 @@ function simple(h, head, rows){
 }
 function myfees(){
   const f = PORTAL.fees || [], tot = f.reduce((a,x) => a + (+x.amount || 0), 0);
-  simple("My Fees - Total paid: $" + tot.toFixed(2), ["Date","Amount","Method"], f.map(x => [x.date, "$" + Number(x.amount).toFixed(2), x.method]));
+  simple("My Fees | Total: $" + (Number(PORTAL.due) || 0).toFixed(2) + " | Paid: $" + tot.toFixed(2) + " | Balance: $" + ((Number(PORTAL.due) || 0) - tot).toFixed(2), ["Date","Amount","Method"], f.map(x => [x.date, "$" + Number(x.amount).toFixed(2), x.method]));
 }
 function myres(){
   simple("My Results", ["Subject","Marks","Grade"], (PORTAL.results || []).map(x => [x.subject, x.marks, x.grade]));
@@ -248,6 +267,31 @@ async function delUser(uid){
   catch (x) { alert("Lama tirtirin. Hubi Rules-ka."); }
 }
 
+function myatt(){
+  const a = PORTAL.att || [], p = a.filter(x => x.status === "Present").length;
+  simple("My Attendance | Present: " + p + " / " + a.length, ["Date","Status"], [...a].sort((x, y) => y.date.localeCompare(x.date)).map(x => [x.date, x.status]));
+}
+
+/* ---------- Backup / Export / Import ---------- */
+function dl(name, text, type){ const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; a.click(); }
+function backup(){ dl("school-backup-" + today() + ".json", JSON.stringify(S, null, 1), "application/json"); }
+function exportCSV(k){
+  const t = T[k], q = v => '"' + String(v ?? "").replace(/"/g, '""') + '"';
+  dl(k + ".csv", "\ufeff" + [t.c.map(c => q(c[0])).join(",")].concat(S[k].map(r => t.c.map(c => q(c[1](r))).join(","))).join("\n"), "text/csv");
+}
+async function migrate(){
+  if (!confirm("Soo gudbi xogtii hore (school/*)?")) return;
+  try {
+    for (const k of KEYS) {
+      const g = await getDoc(doc(db, "school", k)), items = g.exists() ? (g.data().items || []) : [];
+      items.forEach(r => { if (!r._id) r._id = k === "attendance" ? (r.date + "_" + r.className + "_" + r.studentId).replace(/[\/\s]/g, "-") : newId(); if (!S[k].some(x => x._id === r._id)) S[k].push(r); });
+      await flush(k);
+    }
+    S.students.forEach(st => sync("students", [st.id]));
+    alert("Waa la soo gudbiyay."); route();
+  } catch (x) { alert("Lama gudbin: " + (x.code || x.message)); }
+}
+
 /* ---------- Add / edit / delete ---------- */
 function openForm(k, i){
   const t = T[k], r = i < 0 ? {} : S[k][i]; cur = {k, i};
@@ -271,6 +315,7 @@ $("mf").onsubmit = e => {
   if (d.id && S[k].some((x, j) => x.id === d.id && j !== i)) return alert("This ID already exists.");
   if (t.pre) t.pre(d);
   const old = i < 0 ? null : S[k][i];
+  d._id = old ? old._id : newId();
   i < 0 ? S[k].push(d) : S[k][i] = d;
   save(k, [old && (old.studentId || old.id), d.studentId || d.id]); closeM(); route();
 };
@@ -281,18 +326,18 @@ function route(p){
   page = p || page;
   document.querySelectorAll(".n[data-p]").forEach(b => b.classList.toggle("on", b.dataset.p === page));
   $("title").textContent = PAGES.find(x => x[0] === page)[2];
-  page === "dashboard" ? (ROLE === "student" ? sdash() : dash()) : page === "attendance" ? att() : page === "reports" ? rep() : page === "myfees" ? myfees() : page === "myresults" ? myres() : page === "users" ? usersPage() : list(page);
+  page === "dashboard" ? (ROLE === "student" ? sdash() : dash()) : page === "attendance" ? att() : page === "reports" ? rep() : page === "myfees" ? myfees() : page === "myresults" ? myres() : page === "myatt" ? myatt() : page === "users" ? usersPage() : list(page);
 }
-let ROLE = "admin", SID = "", PORTAL = {};
-const ALLOWED = { teacher: ["dashboard","attendance","results"], student: ["dashboard","myfees","myresults"] };
+let ROLE = "admin", SID = "", NAME = "", PORTAL = {};
+const ALLOWED = { teacher: ["dashboard","attendance","results"], student: ["dashboard","myfees","myresults","myatt"] };
 function buildNav(){
-  const pg = ROLE === "admin" ? PAGES.filter(p => !["myfees","myresults"].includes(p[0])) : PAGES.filter(p => ALLOWED[ROLE].includes(p[0]));
+  const pg = ROLE === "admin" ? PAGES.filter(p => !["myfees","myresults","myatt"].includes(p[0])) : PAGES.filter(p => ALLOWED[ROLE].includes(p[0]));
   $("nav").innerHTML = pg.map(([id,ic,tt]) => `<button class="n" data-p="${id}">${ic} ${tt}</button>`).join("") + `<button class="n lo" id="lo">🚪 Logout</button>`;
   document.querySelectorAll(".n[data-p]").forEach(b => b.onclick = () => route(b.dataset.p));
   $("lo").onclick = () => signOut(auth);
 }
 
-Object.assign(window, { openForm, closeM, del, rows, attList, attSave, syncAll, createUser, delUser, toggleS });
+Object.assign(window, { openForm, closeM, del, rows, attList, attSave, syncAll, createUser, delUser, toggleS, backup, exportCSV, migrate });
 
 /* ---------- Login (Firebase Authentication) ---------- */
 $("lf").onsubmit = async e => {
@@ -308,6 +353,7 @@ onAuthStateChanged(auth, async user => {
       const r = await getDoc(doc(db, "users", user.uid));
       ROLE = r.exists() ? r.data().role : "";
       SID = r.exists() ? (r.data().studentId || "") : "";
+      NAME = r.exists() ? (r.data().name || "") : "";
     } catch (x) { ROLE = ""; }
     if (ROLE !== "admin" && ROLE !== "teacher" && !(ROLE === "student" && SID)) {
       alert("Account-kan door (role) ma leh. La xiriir admin-ka.");
@@ -317,12 +363,13 @@ onAuthStateChanged(auth, async user => {
     buildNav();
     try {
       if (ROLE === "student") { const p = await getDoc(doc(db, "portal", SID)); PORTAL = p.exists() ? p.data() : {}; }
-      else await Promise.all((ROLE === "teacher" ? KEYS.filter(k => k !== "fees") : KEYS).map(async k => {
-        const s = await getDoc(doc(db, "school", k));
-        S[k] = s.exists() ? (s.data().items || []) : [];
+      else await Promise.all((ROLE === "teacher" ? ["students","classes","attendance","results"] : KEYS).map(async k => {
+        const s = await getDocs(collection(db, k));
+        S[k] = s.docs.map(d => ({ _id: d.id, ...d.data() })).sort((a, b) => a._id.localeCompare(b._id));
+        snapOf(k);
       }));
     } catch (x) { alert("Xogta lama soo akhrin karo. Hubi Rules-ka."); }
-    $("who").textContent = user.email + " (" + ROLE + ")";
+    $("who").textContent = (NAME || user.email) + " (" + ROLE + ")";
     $("login").style.display = "none";
     $("app").style.display = "block";
     route("dashboard");
