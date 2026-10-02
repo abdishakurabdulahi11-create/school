@@ -80,7 +80,7 @@ th{background:#f8fafc;color:#475569}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // 👇 Ku beddel firebaseConfig-kaaga (Project settings → Your apps → Web)
 const firebaseConfig = {
@@ -125,10 +125,25 @@ const T = {
     pre:d=>{d.grade=grade(d.marks)},
     c:[["Student",r=>sName(r.studentId)],["Subject",r=>r.subject],["Marks",r=>r.marks],["Grade",r=>r.grade]]}
 };
-const PAGES = [["dashboard","🏠","Dashboard"],["students","👨‍🎓","Students"],["classes","🏫","Classes"],["teachers","👨‍🏫","Teachers"],["attendance","📅","Attendance"],["fees","💰","Fees"],["results","📊","Results"],["reports","📄","Reports"]];
+const PAGES = [["dashboard","🏠","Dashboard"],["students","👨‍🎓","Students"],["classes","🏫","Classes"],["teachers","👨‍🏫","Teachers"],["attendance","📅","Attendance"],["fees","💰","Fees"],["results","📊","Results"],["reports","📄","Reports"],["myfees","💰","My Fees"],["myresults","📊","My Results"]];
 let page = "dashboard", cur = null;
 
-const save = k => setDoc(doc(db, "school", k), { items: S[k] }).catch(() => alert("Xogta lama keydin. Hubi internet-ka iyo Rules-ka."));
+const save = (k, ids = []) => {
+  setDoc(doc(db, "school", k), { items: S[k] }).catch(() => alert("Xogta lama keydin. Hubi internet-ka iyo Rules-ka."));
+  sync(k, ids);
+};
+/* Portal: hal document arday kasta (fees + results) si ardaygu u arko kuwiisa kaliya */
+function sync(k, ids){
+  if (!["students","fees","results"].includes(k)) return;
+  [...new Set(ids)].filter(Boolean).forEach(id => {
+    const ref = doc(db, "portal", id), st = S.students.find(s => s.id === id);
+    const rs = S.results.filter(r => r.studentId === id);
+    if (ROLE === "teacher") { if (st) setDoc(ref, { results: rs }, { merge: true }).catch(() => {}); return; }
+    if (st) setDoc(ref, { name: st.name, className: st.className, fees: S.fees.filter(f => f.studentId === id), results: rs }).catch(() => {});
+    else deleteDoc(ref).catch(() => {});
+  });
+}
+function syncAll(){ S.students.forEach(s => sync("students", [s.id])); alert("Student portal waa la cusboonaysiiyay."); }
 
 /* ---------- Views ---------- */
 function stats(){
@@ -140,7 +155,7 @@ function dash(){
   $("view").innerHTML = `<div class="welcome"><h2>Welcome to School Management System 👋</h2><p style="margin-top:8px">Manage your school from one place.</p></div><div class="cards">${stats()}</div>`;
 }
 function rep(){
-  $("view").innerHTML = `<div class="box"><h2>School Reports</h2><p style="color:#64748b;margin:6px 0 18px">Current school statistics</p><div class="cards">${stats()}</div><button class="b p" style="margin-top:18px" onclick="print()">🖨 Print Report</button></div>`;
+  $("view").innerHTML = `<div class="box"><h2>School Reports</h2><p style="color:#64748b;margin:6px 0 18px">Current school statistics</p><div class="cards">${stats()}</div><button class="b p" style="margin-top:18px" onclick="print()">🖨 Print Report</button> <button class="b s" style="margin-top:18px" onclick="syncAll()">🔄 Sync Student Portal</button></div>`;
 }
 function list(k){
   const t = T[k];
@@ -178,6 +193,21 @@ function attSave(){
   save("attendance"); alert("Attendance saved successfully.");
 }
 
+/* ---------- Student portal views ---------- */
+function sdash(){
+  $("view").innerHTML = `<div class="welcome"><h2>Welcome, ${esc(PORTAL.name || "")} 👋</h2><p style="margin-top:8px">Class: ${esc(PORTAL.className || "-")}</p></div>`;
+}
+function simple(h, head, rows){
+  $("view").innerHTML = `<div class="box"><h2>${h}</h2><div class="tw" style="margin-top:14px"><table><thead><tr>${head.map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${rows.length ? rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("") : `<tr><td colspan="9" class="empty">Nothing found.</td></tr>`}</tbody></table></div></div>`;
+}
+function myfees(){
+  const f = PORTAL.fees || [], tot = f.reduce((a,x) => a + (+x.amount || 0), 0);
+  simple("My Fees - Total paid: $" + tot.toFixed(2), ["Date","Amount","Method"], f.map(x => [x.date, "$" + Number(x.amount).toFixed(2), x.method]));
+}
+function myres(){
+  simple("My Results", ["Subject","Marks","Grade"], (PORTAL.results || []).map(x => [x.subject, x.marks, x.grade]));
+}
+
 /* ---------- Add / edit / delete ---------- */
 function openForm(k, i){
   const t = T[k], r = i < 0 ? {} : S[k][i]; cur = {k, i};
@@ -191,7 +221,7 @@ function closeM(){ $("modal").style.display = "none"; }
 function del(k, i){
   const r = S[k][i];
   if (!confirm("Delete " + (r.name || "this record") + "?")) return;
-  S[k].splice(i, 1); save(k); route();
+  S[k].splice(i, 1); save(k, [r.studentId || r.id]); route();
 }
 $("mf").onsubmit = e => {
   e.preventDefault();
@@ -200,8 +230,9 @@ $("mf").onsubmit = e => {
   t.f.forEach(f => { if (f.ty === "number") d[f.k] = +d[f.k]; });
   if (d.id && S[k].some((x, j) => x.id === d.id && j !== i)) return alert("This ID already exists.");
   if (t.pre) t.pre(d);
+  const old = i < 0 ? null : S[k][i];
   i < 0 ? S[k].push(d) : S[k][i] = d;
-  save(k); closeM(); route();
+  save(k, [old && (old.studentId || old.id), d.studentId || d.id]); closeM(); route();
 };
 $("modal").onclick = e => { if (e.target === $("modal")) closeM(); };
 
@@ -210,18 +241,18 @@ function route(p){
   page = p || page;
   document.querySelectorAll(".n[data-p]").forEach(b => b.classList.toggle("on", b.dataset.p === page));
   $("title").textContent = PAGES.find(x => x[0] === page)[2];
-  page === "dashboard" ? dash() : page === "attendance" ? att() : page === "reports" ? rep() : list(page);
+  page === "dashboard" ? (ROLE === "student" ? sdash() : dash()) : page === "attendance" ? att() : page === "reports" ? rep() : page === "myfees" ? myfees() : page === "myresults" ? myres() : list(page);
 }
-let ROLE = "admin";
-const TEACHER_PAGES = ["dashboard","attendance","results"];
+let ROLE = "admin", SID = "", PORTAL = {};
+const ALLOWED = { teacher: ["dashboard","attendance","results"], student: ["dashboard","myfees","myresults"] };
 function buildNav(){
-  const pg = ROLE === "teacher" ? PAGES.filter(p => TEACHER_PAGES.includes(p[0])) : PAGES;
+  const pg = ROLE === "admin" ? PAGES.filter(p => !["myfees","myresults"].includes(p[0])) : PAGES.filter(p => ALLOWED[ROLE].includes(p[0]));
   $("nav").innerHTML = pg.map(([id,ic,tt]) => `<button class="n" data-p="${id}">${ic} ${tt}</button>`).join("") + `<button class="n lo" id="lo">🚪 Logout</button>`;
   document.querySelectorAll(".n[data-p]").forEach(b => b.onclick = () => route(b.dataset.p));
   $("lo").onclick = () => signOut(auth);
 }
 
-Object.assign(window, { openForm, closeM, del, rows, attList, attSave });
+Object.assign(window, { openForm, closeM, del, rows, attList, attSave, syncAll });
 
 /* ---------- Login (Firebase Authentication) ---------- */
 $("lf").onsubmit = async e => {
@@ -236,15 +267,17 @@ onAuthStateChanged(auth, async user => {
     try {
       const r = await getDoc(doc(db, "users", user.uid));
       ROLE = r.exists() ? r.data().role : "";
+      SID = r.exists() ? (r.data().studentId || "") : "";
     } catch (x) { ROLE = ""; }
-    if (ROLE !== "admin" && ROLE !== "teacher") {
+    if (ROLE !== "admin" && ROLE !== "teacher" && !(ROLE === "student" && SID)) {
       alert("Account-kan door (role) ma leh. La xiriir admin-ka.");
       signOut(auth);
       return;
     }
     buildNav();
     try {
-      await Promise.all(KEYS.map(async k => {
+      if (ROLE === "student") { const p = await getDoc(doc(db, "portal", SID)); PORTAL = p.exists() ? p.data() : {}; }
+      else await Promise.all((ROLE === "teacher" ? KEYS.filter(k => k !== "fees") : KEYS).map(async k => {
         const s = await getDoc(doc(db, "school", k));
         S[k] = s.exists() ? (s.data().items || []) : [];
       }));
