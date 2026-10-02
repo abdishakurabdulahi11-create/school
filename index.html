@@ -133,7 +133,7 @@ const save = k => setDoc(doc(db, "school", k), { items: S[k] }).catch(() => aler
 /* ---------- Views ---------- */
 function stats(){
   const fee = S.fees.reduce((a,f) => a + (+f.amount || 0), 0);
-  return [["Students",S.students.length],["Classes",S.classes.length],["Teachers",S.teachers.length],["Fees Paid","$"+fee.toFixed(2)]]
+  return [["Students",S.students.length],["Classes",S.classes.length],["Teachers",S.teachers.length],["Fees Paid","$"+fee.toFixed(2)]].filter(x => ROLE !== "teacher" || x[0] !== "Fees Paid")
     .map(([a,b]) => `<div class="card"><h3>${a}</h3><div class="num">${b}</div></div>`).join("");
 }
 function dash(){
@@ -212,9 +212,14 @@ function route(p){
   $("title").textContent = PAGES.find(x => x[0] === page)[2];
   page === "dashboard" ? dash() : page === "attendance" ? att() : page === "reports" ? rep() : list(page);
 }
-$("nav").innerHTML = PAGES.map(([id,ic,tt]) => `<button class="n" data-p="${id}">${ic} ${tt}</button>`).join("") + `<button class="n lo" id="lo">🚪 Logout</button>`;
-document.querySelectorAll(".n[data-p]").forEach(b => b.onclick = () => route(b.dataset.p));
-$("lo").onclick = () => signOut(auth);
+let ROLE = "admin";
+const TEACHER_PAGES = ["dashboard","attendance","results"];
+function buildNav(){
+  const pg = ROLE === "teacher" ? PAGES.filter(p => TEACHER_PAGES.includes(p[0])) : PAGES;
+  $("nav").innerHTML = pg.map(([id,ic,tt]) => `<button class="n" data-p="${id}">${ic} ${tt}</button>`).join("") + `<button class="n lo" id="lo">🚪 Logout</button>`;
+  document.querySelectorAll(".n[data-p]").forEach(b => b.onclick = () => route(b.dataset.p));
+  $("lo").onclick = () => signOut(auth);
+}
 
 Object.assign(window, { openForm, closeM, del, rows, attList, attSave });
 
@@ -229,12 +234,22 @@ $("lf").onsubmit = async e => {
 onAuthStateChanged(auth, async user => {
   if (user) {
     try {
+      const r = await getDoc(doc(db, "users", user.uid));
+      ROLE = r.exists() ? r.data().role : "";
+    } catch (x) { ROLE = ""; }
+    if (ROLE !== "admin" && ROLE !== "teacher") {
+      alert("Account-kan door (role) ma leh. La xiriir admin-ka.");
+      signOut(auth);
+      return;
+    }
+    buildNav();
+    try {
       await Promise.all(KEYS.map(async k => {
         const s = await getDoc(doc(db, "school", k));
         S[k] = s.exists() ? (s.data().items || []) : [];
       }));
     } catch (x) { alert("Xogta lama soo akhrin karo. Hubi Rules-ka."); }
-    $("who").textContent = user.email;
+    $("who").textContent = user.email + " (" + ROLE + ")";
     $("login").style.display = "none";
     $("app").style.display = "block";
     route("dashboard");
@@ -245,5 +260,4 @@ onAuthStateChanged(auth, async user => {
 });
 </script>
 </body>
-</html>
 </html>
