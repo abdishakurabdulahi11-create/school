@@ -79,8 +79,8 @@ th{background:#f8fafc;color:#475569}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // 👇 Ku beddel firebaseConfig-kaaga (Project settings → Your apps → Web)
 const firebaseConfig = {
@@ -95,6 +95,7 @@ const firebaseConfig = {
 const fbApp = initializeApp(firebaseConfig);
 const auth = getAuth(fbApp);
 const db = getFirestore(fbApp);
+const auth2 = getAuth(initializeApp(firebaseConfig, "secondary")); // si admin-ku u sii jiro marka user cusub la abuuro
 const $ = id => document.getElementById(id);
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const today = () => new Date().toISOString().split("T")[0];
@@ -125,7 +126,7 @@ const T = {
     pre:d=>{d.grade=grade(d.marks)},
     c:[["Student",r=>sName(r.studentId)],["Subject",r=>r.subject],["Marks",r=>r.marks],["Grade",r=>r.grade]]}
 };
-const PAGES = [["dashboard","🏠","Dashboard"],["students","👨‍🎓","Students"],["classes","🏫","Classes"],["teachers","👨‍🏫","Teachers"],["attendance","📅","Attendance"],["fees","💰","Fees"],["results","📊","Results"],["reports","📄","Reports"],["myfees","💰","My Fees"],["myresults","📊","My Results"]];
+const PAGES = [["dashboard","🏠","Dashboard"],["students","👨‍🎓","Students"],["classes","🏫","Classes"],["teachers","👨‍🏫","Teachers"],["attendance","📅","Attendance"],["fees","💰","Fees"],["results","📊","Results"],["reports","📄","Reports"],["users","🔑","Users"],["myfees","💰","My Fees"],["myresults","📊","My Results"]];
 let page = "dashboard", cur = null;
 
 const save = (k, ids = []) => {
@@ -208,6 +209,45 @@ function myres(){
   simple("My Results", ["Subject","Marks","Grade"], (PORTAL.results || []).map(x => [x.subject, x.marks, x.grade]));
 }
 
+/* ---------- Users (admin kaliya) ---------- */
+async function usersPage(){
+  $("view").innerHTML = `<div class="box"><p class="empty">Loading...</p></div>`;
+  let ul = [];
+  try { ul = (await getDocs(collection(db, "users"))).docs.map(d => ({ uid: d.id, ...d.data() })); }
+  catch (x) { $("view").innerHTML = `<div class="box"><p class="empty">Lama akhrin karo. Hubi Rules-ka.</p></div>`; return; }
+  $("view").innerHTML = `<div class="box"><h2>Create User</h2><div class="grid" style="margin-top:14px">
+    <div class="ig"><label>Email</label><input id="ue" type="email"></div>
+    <div class="ig"><label>Password (min 6)</label><input id="up" type="text"></div>
+    <div class="ig"><label>Role</label><select id="ur" onchange="toggleS()"><option value="teacher">teacher</option><option value="student">student</option><option value="admin">admin</option></select></div>
+    <div class="ig" id="usw" style="display:none"><label>Student</label><select id="us"><option value="">Select</option>${S.students.map(s => `<option value="${esc(s.id)}">${esc(s.name)} (${esc(s.id)})</option>`).join("")}</select></div>
+    <div class="ig"><label>Name (optional)</label><input id="un"></div></div>
+    <button class="b p" onclick="createUser()">Create User</button></div>
+    <div class="box" style="margin-top:16px"><h2>Users</h2><div class="tw" style="margin-top:14px"><table><thead><tr><th>Email</th><th>Name</th><th>Role</th><th>Student ID</th><th></th></tr></thead><tbody>${ul.map(u => `<tr><td>${esc(u.email || u.uid)}</td><td>${esc(u.name || "-")}</td><td>${esc(u.role)}</td><td>${esc(u.studentId || "-")}</td><td><button class="b d" onclick="delUser('${esc(u.uid)}')">Remove</button></td></tr>`).join("")}</tbody></table></div></div>`;
+}
+function toggleS(){ $("usw").style.display = $("ur").value === "student" ? "block" : "none"; }
+async function createUser(){
+  const email = $("ue").value.trim(), pw = $("up").value, role = $("ur").value, sid = $("us").value;
+  let name = $("un").value.trim();
+  if (!email || pw.length < 6) return alert("Geli email iyo password (ugu yaraan 6 xaraf).");
+  if (role === "student" && !sid) return alert("Dooro ardayga.");
+  if (role === "student" && !name) name = (S.students.find(s => s.id === sid) || {}).name || "";
+  try {
+    const cred = await createUserWithEmailAndPassword(auth2, email, pw);
+    const data = { email, role, name };
+    if (role === "student") data.studentId = sid;
+    await setDoc(doc(db, "users", cred.user.uid), data);
+    await signOut(auth2);
+    alert("User waa la abuuray.");
+    usersPage();
+  } catch (x) { alert("Lama abuurin: " + (x.code || x.message)); }
+}
+async function delUser(uid){
+  if (uid === auth.currentUser.uid) return alert("Naftaada ma tirtiri kartid.");
+  if (!confirm("Ka saar user-kan helitaanka (access)?")) return;
+  try { await deleteDoc(doc(db, "users", uid)); usersPage(); }
+  catch (x) { alert("Lama tirtirin. Hubi Rules-ka."); }
+}
+
 /* ---------- Add / edit / delete ---------- */
 function openForm(k, i){
   const t = T[k], r = i < 0 ? {} : S[k][i]; cur = {k, i};
@@ -241,7 +281,7 @@ function route(p){
   page = p || page;
   document.querySelectorAll(".n[data-p]").forEach(b => b.classList.toggle("on", b.dataset.p === page));
   $("title").textContent = PAGES.find(x => x[0] === page)[2];
-  page === "dashboard" ? (ROLE === "student" ? sdash() : dash()) : page === "attendance" ? att() : page === "reports" ? rep() : page === "myfees" ? myfees() : page === "myresults" ? myres() : list(page);
+  page === "dashboard" ? (ROLE === "student" ? sdash() : dash()) : page === "attendance" ? att() : page === "reports" ? rep() : page === "myfees" ? myfees() : page === "myresults" ? myres() : page === "users" ? usersPage() : list(page);
 }
 let ROLE = "admin", SID = "", PORTAL = {};
 const ALLOWED = { teacher: ["dashboard","attendance","results"], student: ["dashboard","myfees","myresults"] };
@@ -252,7 +292,7 @@ function buildNav(){
   $("lo").onclick = () => signOut(auth);
 }
 
-Object.assign(window, { openForm, closeM, del, rows, attList, attSave, syncAll });
+Object.assign(window, { openForm, closeM, del, rows, attList, attSave, syncAll, createUser, delUser, toggleS });
 
 /* ---------- Login (Firebase Authentication) ---------- */
 $("lf").onsubmit = async e => {
