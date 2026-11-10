@@ -12,14 +12,14 @@
 .login-card{width:420px;max-width:100%;background:#fff;padding:30px;border-radius:18px;box-shadow:0 20px 60px #001b3b55}.brand{text-align:center;color:var(--blue)}.brand-mark{width:64px;height:64px;border-radius:16px;background:#e8f2ff;display:grid;place-items:center;margin:0 auto 12px;font-size:30px}.login-card h1{font-size:23px;margin:8px 0}.login-card p{color:var(--muted);text-align:center;margin:0 0 24px}
 .field{margin-bottom:14px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}.field input,.field select,.field textarea,.search{width:100%;padding:11px 12px;border:1px solid #d5dfeb;border-radius:9px;background:#fff;color:var(--ink)}.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid #b8d8fa;border-color:var(--blue2)}
 .btn{border:0;border-radius:9px;padding:10px 14px;font-weight:700;background:#eaf0f7;color:#29445f}.btn.primary{background:var(--blue2);color:#fff}.btn.green{background:var(--green);color:#fff}.btn.red{background:var(--red);color:#fff}.btn.gold{background:var(--gold);color:#fff}.btn.full{width:100%;padding:13px}.btn.small{padding:7px 9px;font-size:12px}.btn:disabled{opacity:.55;cursor:not-allowed}
-#error{display:none;background:#fff0f0;color:#b42323;padding:10px;border-radius:8px;margin-top:12px}
+#error{display:none;background:#fff0f0;color:#b42323;padding:10px;border-radius:8px;margin-top:12px;white-space:pre-wrap}
 #app{display:none}.sidebar{position:fixed;inset:0 auto 0 0;width:248px;background:var(--navy);color:#fff;padding:20px 13px;overflow:auto;z-index:4}.side-brand{font-size:17px;font-weight:800;text-align:center;padding:8px 5px 22px;line-height:1.4}.side-brand small{display:block;font-size:11px;color:#b8d4ee;font-weight:400}.nav-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#9bb9d5;padding:12px 10px 7px}.nav-btn{display:block;width:100%;border:0;background:transparent;color:#eaf4ff;text-align:left;padding:11px 12px;border-radius:9px;margin:2px 0;font-size:14px}.nav-btn:hover,.nav-btn.active{background:#1769b4;color:#fff}.nav-btn.logout{margin-top:18px;background:#a52f3c}
-main{margin-left:248px;padding:22px;min-height:100vh}.topbar{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.topbar h1{font-size:21px;color:var(--navy);margin:0}.user-chip{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted)}.avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#e5effa;display:grid;place-items:center;color:var(--blue);font-weight:800;border:1px solid #d8e5f2}.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+main{margin-left:248px;padding:22px;min-height:100vh}.topbar{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.topbar h1{font-size:21px;color:var(--navy);margin:0}.user-chip{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted)}.avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#e5effa;display:grid;place-items:center;color:var(--blue);font-weight:800;border:1px solid #d8e5f2;overflow:hidden}.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .welcome{background:linear-gradient(110deg,#0756a5,#1386d8);color:#fff;border-radius:15px;padding:23px;margin-bottom:18px}.welcome h2{margin:0 0 8px;font-size:22px}.welcome p{margin:0;color:#dceeff}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.stat,.panel{background:#fff;border:1px solid var(--line);border-radius:13px;padding:17px;box-shadow:0 3px 12px #18324b08}.stat small{color:var(--muted);font-weight:700}.stat strong{display:block;font-size:27px;color:var(--blue);margin-top:8px}.panel{margin-top:17px}.panel h2,.panel h3{margin:0 0 14px;color:var(--navy)}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.panel-head h2{margin:0}.toolbar{display:flex;gap:8px;flex-wrap:wrap}.search{max-width:320px;margin-bottom:12px}
 .table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:620px}th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}th{background:#f5f8fc;color:#52677c;white-space:nowrap}td{color:#314b64}.empty{text-align:center;padding:25px;color:var(--muted)}
 .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}.badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#e9f3ff;color:#0756a5;font-size:11px;font-weight:700}
 .modal{display:none;position:fixed;inset:0;background:#001a35a8;z-index:10;align-items:center;justify-content:center;padding:16px}.modal-card{background:#fff;width:620px;max-width:100%;max-height:90vh;overflow:auto;border-radius:15px;padding:20px}.modal-card h2{margin:0 0 16px;color:var(--navy)}
-.profile-layout{display:grid;grid-template-columns:260px 1fr;gap:16px}.profile-card{text-align:center}.profile-photo{width:112px;height:112px;border-radius:50%;object-fit:cover;background:#e5effa;border:4px solid #eaf3fc;margin:4px auto 12px;display:grid;place-items:center;font-size:34px;color:var(--blue)}.profile-photo img{width:100%;height:100%;border-radius:50%;object-fit:cover}.muted{color:var(--muted);font-size:13px}.setting-row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:13px 0;border-bottom:1px solid var(--line)}.setting-row:last-child{border:0}
+.profile-layout{display:grid;grid-template-columns:260px 1fr;gap:16px}.profile-card{text-align:center}.profile-photo{width:112px;height:112px;border-radius:50%;object-fit:cover;background:#e5effa;border:4px solid #eaf3fc;margin:4px auto 12px;display:grid;place-items:center;font-size:34px;color:var(--blue);overflow:hidden}.profile-photo img{width:100%;height:100%;border-radius:50%;object-fit:cover}.muted{color:var(--muted);font-size:13px}.setting-row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:13px 0;border-bottom:1px solid var(--line)}.setting-row:last-child{border:0}
 .notice{padding:12px 14px;border-radius:9px;background:#fff8e8;color:#805512;font-size:13px;margin:12px 0}.success{background:#e9f8f0;color:#126a43}.danger{background:#fff0f0;color:#a52f3c}
 @media(max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){.sidebar{position:static;width:100%;height:auto;padding:10px}.side-brand{text-align:left;padding:4px 8px 10px}.nav-label{display:none}#nav{display:flex;overflow-x:auto;gap:5px;padding-bottom:5px}.nav-btn{width:auto;white-space:nowrap;flex:0 0 auto;padding:9px 11px}.nav-btn.logout{margin:0}main{margin:0;padding:12px}.topbar{padding:12px}.topbar h1{font-size:17px}.grid{grid-template-columns:1fr 1fr}.profile-layout{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
@@ -47,8 +47,7 @@ main{margin-left:248px;padding:22px;min-height:100vh}.topbar{background:#fff;bor
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut,updatePassword} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getFirestore,doc,getDoc,setDoc,collection,getDocs,writeBatch,deleteDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import {getStorage,ref,uploadBytes,getBytes,deleteObject} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import {getFirestore,doc,getDoc,setDoc,collection,getDocs,deleteDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig={
  apiKey:"AIzaSyDmr2YsU4xz9DgZnHm2HdNL6p-F-iPi6xk",
@@ -58,58 +57,15 @@ const firebaseConfig={
  messagingSenderId:"9371185701",
  appId:"1:9371185701:web:ea6542d0a4d8b56baf05cc"
 };
-const fb=initializeApp(firebaseConfig),auth=getAuth(fb),db=getFirestore(fb),storage=getStorage(fb);
-const $=id=>document.getElementById(id), today=()=>new Date().toISOString().slice(0,10);
+const fb=initializeApp(firebaseConfig),auth=getAuth(fb),db=getFirestore(fb);
+const $=id=>document.getElementById(id);
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const state={role:"",uid:"",email:"",name:"",studentId:"",page:"dashboard",profile:{},settings:{},photoUrl:null,data:{students:[],teachers:[],classes:[],faculties:[],departments:[],batches:[],attendance:[],fees:[],results:[]}};
+const state={role:"",uid:"",email:"",name:"",studentId:"",page:"dashboard",profile:{},settings:{},photoUrl:null,studentRecord:{},portal:{},data:{students:[],teachers:[],classes:[],faculties:[],departments:[],batches:[],attendance:[],fees:[],results:[]}};
 const titles={dashboard:"Dashboard",profile:"My Profile",settings:"My Settings",students:"Students",teachers:"Teachers",faculties:"Faculties",departments:"Departments",batches:"Batches",classes:"Courses & Classes",attendance:"Attendance",fees:"Finance & Fees",results:"Examination Results",users:"User Accounts"};
 const adminPages=["dashboard","students","teachers","faculties","departments","batches","classes","attendance","fees","results","users","profile","settings"];
 const teacherPages=["dashboard","classes","attendance","results","profile","settings"];
 const studentPages=["dashboard","results","attendance","fees","profile","settings"];
 const collections=Object.keys(state.data);
-function initials(n){return (n||"U").trim().split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase()}
-function notify(msg){alert(msg)}
-function showError(msg){$("error").style.display="block";$("error").textContent=msg}
-function setAvatar(el,url,name){el.innerHTML=url?`<img src="${url}" alt="Your profile photo">`:esc(initials(name))}
-function nav(){
- const pages=state.role==="admin"?adminPages:state.role==="teacher"?teacherPages:studentPages;
- $("nav").innerHTML=pages.map(p=>`<button class="nav-btn ${state.page===p?"active":""}" data-page="${p}">${({dashboard:"⌂",profile:"◎",settings:"⚙",students:"♙",teachers:"♧",faculties:"▦",departments:"▤",batches:"▣",classes:"▤",attendance:"◷",fees:"＄",results:"▥",users:"♧"})[p]} &nbsp;${titles[p]}</button>`).join("")+`<button class="nav-btn logout" id="logout">⇥ &nbsp;Sign out</button>`;
- document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>route(b.dataset.page));$("logout").onclick=()=>signOut(auth);
-}
-async function loadPhoto(){
- if(state.photoUrl)URL.revokeObjectURL(state.photoUrl);state.photoUrl=null;
- try{const p=state.profile.photoPath;if(!p)return;const bytes=await getBytes(ref(storage,p));state.photoUrl=URL.createObjectURL(new Blob([bytes],{type:state.profile.contentType||"image/jpeg"}));}catch(e){console.warn("Private profile image unavailable",e)}
- setAvatar($("topAvatar"),state.photoUrl,state.name);
-}
-async function loadData(){
- for(const k of collections){
-  if(state.role==="teacher"&&!["students","classes","attendance","results","teachers","faculties","departments","batches"].includes(k))continue;
-  if(state.role==="student")continue;
-  try{const snap=await getDocs(collection(db,k));state.data[k]=snap.docs.map(d=>({_id:d.id,...d.data()}));}catch(e){console.warn("Could not load",k,e)}
- }
-}
-async function boot(user){
- state.uid=user.uid;state.email=user.email||"";
- const u=await getDoc(doc(db,"users",user.uid));
- if(!u.exists()){await signOut(auth);showError("This account has no assigned portal role. Contact the administrator.");return}
- const ud=u.data();state.role=ud.role||"";state.studentId=ud.studentId||"";state.name=ud.name||user.email||"User";
- if(!["admin","teacher","student"].includes(state.role)||(state.role==="student"&&!state.studentId)){await signOut(auth);showError("Account role is not valid. Contact administrator.");return}
- const pr=await getDoc(doc(db,"profiles",user.uid));state.profile=pr.exists()?pr.data():{};
- state.settings=state.profile.settings||{};
- if(state.role==="student"){
-  const portal=await getDoc(doc(db,"portal",state.studentId));const pd=portal.exists()?portal.data():{};
-  state.name=pd.name||state.name;state.studentRecord=state.data.students.find(x=>x.id===state.studentId)||{};
-  state.portal=pd;
- }else await loadData();
- await loadPhoto();$("topName").textContent=state.name;$("login").style.display="none";$("app").style.display="block";nav();route("dashboard");
-}
-function route(p){state.page=p;nav();$("pageTitle").textContent=titles[p]||"Portal";({dashboard:dashboard,profile:profilePage,settings:settingsPage,students:()=>tablePage("students"),teachers:()=>tablePage("teachers"),faculties:()=>tablePage("faculties"),departments:()=>tablePage("departments"),batches:()=>tablePage("batches"),classes:()=>tablePage("classes"),attendance:()=>tablePage("attendance"),fees:()=>tablePage("fees"),results:()=>tablePage("results"),users:usersPage})[p]?.()}
-function dashboard(){
- const d=state.data, student=state.role==="student";
- const cards=student?[["My Results",(state.portal?.results||[]).length],["Attendance Records",(state.portal?.att||[]).length],["Fees Paid",(state.portal?.fees||[]).reduce((a,x)=>a+(+x.amount||0),0).toFixed(2)]]:[["Students",d.students.length],["Teachers",d.teachers.length],["Faculties",d.faculties.length],["Courses / Classes",d.classes.length],["Batches",d.batches.length],["Results",d.results.length]];
- $("view").innerHTML=`<section class="welcome"><h2>Welcome, ${esc(state.name)} 👋</h2><p>${student?"Your personal academic services":"Manage university academic services from one place."}</p></section><div class="grid">${cards.map(([a,b])=>`<div class="stat"><small>${a}</small><strong>${typeof b==="number"?b:esc(b)}</strong></div>`).join("")}</div><section class="panel"><h2>Quick services</h2><div class="toolbar">${(student?["results","attendance","fees","profile","settings"]:["students","teachers","classes","attendance","results","profile","settings"]).map(p=>`<button class="btn" data-quick="${p}">${titles[p]}</button>`).join("")}</div></section>`;
- document.querySelectorAll("[data-quick]").forEach(b=>b.onclick=()=>route(b.dataset.quick));
-}
 const schemas={
  students:[["id","Student ID"],["name","Full name"],["email","Email"],["gender","Gender"],["faculty","Faculty"],["department","Department"],["batch","Batch"],["className","Course / Class"],["phone","Phone"]],
  teachers:[["id","Teacher ID"],["name","Full name"],["email","Email"],["subject","Subject"],["phone","Phone"]],
@@ -121,6 +77,57 @@ const schemas={
  fees:[["studentId","Student ID"],["amount","Amount"],["date","Date"],["method","Method"]],
  results:[["studentId","Student ID"],["course","Course / Subject"],["semester","Semester"],["examType","Exam type"],["marks","Marks"],["grade","Grade"]]
 };
+function initials(n){return (n||"U").trim().split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase()}
+function notify(msg){alert(msg)}
+function showError(msg){$("error").style.display="block";$("error").textContent=msg}
+function setAvatar(el,url,name){el.innerHTML=url?`<img src="${url}" alt="Your profile photo">`:esc(initials(name))}
+function nav(){
+ const pages=state.role==="admin"?adminPages:state.role==="teacher"?teacherPages:studentPages;
+ $("nav").innerHTML=pages.map(p=>`<button class="nav-btn ${state.page===p?"active":""}" data-page="${p}">${({dashboard:"⌂",profile:"◎",settings:"⚙",students:"♙",teachers:"♧",faculties:"▦",departments:"▤",batches:"▣",classes:"▤",attendance:"◷",fees:"＄",results:"▥",users:"♧"})[p]} &nbsp;${titles[p]}</button>`).join("")+`<button class="nav-btn logout" id="logout">⇥ &nbsp;Sign out</button>`;
+ document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>route(b.dataset.page));$("logout").onclick=()=>signOut(auth);
+}
+function revokePhoto(){if(state.photoUrl){URL.revokeObjectURL(state.photoUrl);state.photoUrl=null}}
+function loadPhoto(){
+ revokePhoto();
+ if(state.profile.photoData){
+   state.photoUrl=state.profile.photoData;
+ }
+ setAvatar($("topAvatar"),state.photoUrl,state.name);
+}
+async function loadData(){
+ for(const k of collections){
+  if(state.role==="teacher"&&!["students","classes","attendance","results","teachers","faculties","departments","batches"].includes(k))continue;
+  if(state.role==="student")continue;
+  try{const snap=await getDocs(collection(db,k));state.data[k]=snap.docs.map(d=>({_id:d.id,...d.data()}));}
+  catch(e){console.warn("Could not load "+k,e);throw new Error("Cannot read "+k+" collection. Check Firestore Rules and collection access. "+e.message)}
+ }
+}
+async function boot(user){
+ state.uid=user.uid;state.email=user.email||"";
+ const u=await getDoc(doc(db,"users",user.uid));
+ if(!u.exists()){await signOut(auth);showError("This account has no portal record in Firestore users/"+user.uid+". Ask the project administrator to create it.");return}
+ const ud=u.data();state.role=ud.role||"";state.studentId=ud.studentId||"";state.name=ud.name||user.email||"User";
+ if(!["admin","teacher","student"].includes(state.role)||(state.role==="student"&&!state.studentId)){await signOut(auth);showError("Account role or studentId is missing. Contact administrator.");return}
+ const pr=await getDoc(doc(db,"profiles",user.uid));state.profile=pr.exists()?pr.data():{};
+ state.settings=state.profile.settings||{};
+ if(state.role==="student"){
+  const portal=await getDoc(doc(db,"portal",state.studentId));state.portal=portal.exists()?portal.data():{};
+  state.name=state.portal.name||state.profile.name||state.name;
+ }else await loadData();
+ loadPhoto();
+ $("topName").textContent=state.name;$("login").style.display="none";$("app").style.display="block";nav();route("dashboard");
+}
+function route(p){
+ state.page=p;nav();$("pageTitle").textContent=titles[p]||"Portal";
+ const pages={dashboard,profile:profilePage,settings:settingsPage,students:()=>tablePage("students"),teachers:()=>tablePage("teachers"),faculties:()=>tablePage("faculties"),departments:()=>tablePage("departments"),batches:()=>tablePage("batches"),classes:()=>tablePage("classes"),attendance:()=>tablePage("attendance"),fees:()=>tablePage("fees"),results:()=>tablePage("results"),users:usersPage};
+ if(pages[p])pages[p]();
+}
+function dashboard(){
+ const d=state.data,student=state.role==="student";
+ const cards=student?[["My Results",(state.portal.results||[]).length],["Attendance Records",(state.portal.att||[]).length],["Fees Paid",(state.portal.fees||[]).reduce((a,x)=>a+(+x.amount||0),0).toFixed(2)]]:[["Students",d.students.length],["Teachers",d.teachers.length],["Faculties",d.faculties.length],["Courses / Classes",d.classes.length],["Batches",d.batches.length],["Results",d.results.length]];
+ $("view").innerHTML=`<section class="welcome"><h2>Welcome, ${esc(state.name)} 👋</h2><p>${student?"Your personal academic services":"Manage university academic services from one place."}</p></section><div class="grid">${cards.map(([a,b])=>`<div class="stat"><small>${a}</small><strong>${typeof b==="number"?b:esc(b)}</strong></div>`).join("")}</div><section class="panel"><h2>Quick services</h2><div class="toolbar">${(student?["results","attendance","fees","profile","settings"]:["students","teachers","classes","attendance","results","profile","settings"]).map(p=>`<button class="btn" data-quick="${p}">${titles[p]}</button>`).join("")}</div></section>`;
+ document.querySelectorAll("[data-quick]").forEach(b=>b.onclick=()=>route(b.dataset.quick));
+}
 function tablePage(k){
  const rows=state.data[k]||[],cols=schemas[k]||[];
  if(state.role==="student"){
@@ -128,17 +135,16 @@ function tablePage(k){
   const arr=k==="results"?(portal.results||[]):k==="attendance"?(portal.att||[]):k==="fees"?(portal.fees||[]):[];
   $("view").innerHTML=tableHTML(titles[k],cols,arr,false);return;
  }
- if(state.role==="teacher"&&["students","classes","attendance","results"].includes(k)){
-  // Teacher sees academic information; writes are restricted by Firestore rules.
- }
  $("view").innerHTML=tableHTML(titles[k],cols,rows,state.role==="admin");
  if(state.role==="admin")$("addRecord").onclick=()=>editRecord(k,-1);
- const q=$("tableSearch");if(q)q.oninput=()=>filterTable(k);
+ const q=$("tableSearch");if(q)q.oninput=()=>filterTable();
+ document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editRecord(k,+b.dataset.edit));
+ document.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>removeRecord(k,+b.dataset.delete));
 }
 function tableHTML(title,cols,rows,editable){
  return `<section class="panel"><div class="panel-head"><h2>${title}</h2>${editable?`<button class="btn primary" id="addRecord">+ Add record</button>`:""}</div><input class="search" id="tableSearch" placeholder="Search records..."><div class="table-wrap"><table><thead><tr>${cols.map(c=>`<th>${c[1]}</th>`).join("")}${editable?"<th>Actions</th>":""}</tr></thead><tbody id="tableBody">${rows.length?rows.map((r,i)=>`<tr>${cols.map(c=>`<td>${esc(r[c[0]]??"-")}</td>`).join("")}${editable?`<td><button class="btn small gold" data-edit="${i}">Edit</button> <button class="btn small red" data-delete="${i}">Delete</button></td>`:""}</tr>`).join(""):`<tr><td class="empty" colspan="${cols.length+(editable?1:0)}">No records found.</td></tr>`}</tbody></table></div></section>`;
 }
-function filterTable(k){const q=$("tableSearch").value.toLowerCase();document.querySelectorAll("#tableBody tr").forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?"":"none")}
+function filterTable(){const q=$("tableSearch").value.toLowerCase();document.querySelectorAll("#tableBody tr").forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?"":"none")}
 function editRecord(k,i){
  const cols=schemas[k],old=i<0?{}:state.data[k][i];
  $("modalCard").innerHTML=`<h2>${i<0?"Add":"Edit"} ${titles[k].replace(/s$/,"")}</h2><form id="recordForm"><div class="form-grid">${cols.map(([key,label])=>`<div class="field"><label>${label}</label><input name="${key}" value="${esc(old[key]??"")}" ${["marks","amount"].includes(key)?'type="number" min="0"':''} ${key==="date"?'type="date"':""} required></div>`).join("")}</div><div class="form-actions"><button type="button" class="btn" id="cancelModal">Cancel</button><button class="btn primary">Save</button></div></form>`;
@@ -146,27 +152,31 @@ function editRecord(k,i){
  $("recordForm").onsubmit=async e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.target));if(data.marks!==undefined){data.marks=Number(data.marks);data.grade=data.marks>=90?"A+":data.marks>=80?"A":data.marks>=70?"B":data.marks>=60?"C":data.marks>=50?"D":"F"}if(data.amount!==undefined)data.amount=Number(data.amount);
  const id=old._id||crypto.randomUUID();try{await setDoc(doc(db,k,id),data);if(i<0)state.data[k].push({_id:id,...data});else state.data[k][i]={_id:id,...data};closeModal();route(k)}catch(err){notify("Save failed: "+err.message)}};
 }
+async function removeRecord(k,i){const r=state.data[k][i];if(!r?._id||!confirm("Delete this record?"))return;try{await deleteDoc(doc(db,k,r._id));state.data[k].splice(i,1);route(k)}catch(e){notify("Delete failed: "+e.message)}}
 function closeModal(){$("modal").style.display="none"}
-async function usersPage(){
- if(state.role!=="admin")return;
- $("view").innerHTML=`<section class="panel"><h2>User accounts</h2><p class="muted">Create accounts using Firebase Authentication, then assign a role in the users collection. Account creation is intentionally not performed from this page to avoid signing out the administrator or exposing passwords.</p><div class="notice">Create users in Firebase Authentication, then add a matching Firestore document in <b>users</b> with role: admin, teacher, or student. For students include studentId.</div></section>`;
+function usersPage(){
+ $("view").innerHTML=`<section class="panel"><h2>User accounts</h2><p class="muted">Create each account in Firebase Authentication, then create its matching Firestore document in the users collection.</p><div class="notice">For each user, use the Firebase Authentication UID as the document ID in <b>users</b>. Required fields: <b>role</b> = admin, teacher or student; <b>name</b> = full name. For students, also add <b>studentId</b>. Never allow users to choose their own role.</div></section>`;
 }
-async function profilePage(){
+function profilePage(){
  const p=state.profile||{},photo=state.photoUrl;
- $("view").innerHTML=`<div class="profile-layout"><section class="panel profile-card"><div class="profile-photo" id="profilePhoto">${photo?`<img src="${photo}" alt="Your profile picture">`:esc(initials(state.name))}</div><h2>${esc(state.name)}</h2><div class="muted">${esc(state.email)}</div><p><span class="badge">${esc(state.role.toUpperCase())}</span></p><label class="btn primary" for="photoInput">Upload / Change photo</label><input id="photoInput" type="file" accept="image/png,image/jpeg,image/webp" hidden><button class="btn" id="removePhoto" style="margin-top:9px">Remove my photo</button><p class="muted">Only you can access your private profile photo.</p></section><section class="panel"><h2>Personal information</h2><form id="profileForm"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" value="${esc(p.name||state.name)}" required></div><div class="field"><label>Email</label><input value="${esc(state.email)}" disabled></div><div class="field"><label>Phone</label><input name="phone" value="${esc(p.phone||"")}"></div><div class="field"><label>Faculty</label><input name="faculty" value="${esc(p.faculty||"")}" ${state.role==="student"?"disabled":""}></div><div class="field"><label>Department</label><input name="department" value="${esc(p.department||"")}" ${state.role==="student"?"disabled":""}></div><div class="field"><label>Batch</label><input name="batch" value="${esc(p.batch||"")}" ${state.role==="student"?"disabled":""}></div></div><div class="form-actions"><button class="btn primary">Save profile</button></div></form></section></div>`;
- $("photoInput").onchange=async e=>{const f=e.target.files[0];if(!f)return;if(!["image/jpeg","image/png","image/webp"].includes(f.type)||f.size>2*1024*1024)return notify("Choose JPG, PNG or WEBP under 2MB.");try{const path=`profilePhotos/${state.uid}/avatar`;await uploadBytes(ref(storage,path),f,{contentType:f.type});await setDoc(doc(db,"profiles",state.uid),{photoPath:path,contentType:f.type},{merge:true});state.profile.photoPath=path;state.profile.contentType=f.type;await loadPhoto();profilePage();notify("Your photo has been updated.")}catch(err){notify("Upload failed: "+err.message)}};
- $("removePhoto").onclick=async()=>{try{if(state.profile.photoPath)await deleteObject(ref(storage,state.profile.photoPath));await setDoc(doc(db,"profiles",state.uid),{photoPath:null,contentType:null},{merge:true});state.profile.photoPath=null;await loadPhoto();profilePage()}catch(err){notify("Could not remove photo: "+err.message)}};
- $("profileForm").onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));try{await setDoc(doc(db,"profiles",state.uid),d,{merge:true});state.profile={...state.profile,...d};state.name=d.name;await loadPhoto();$("topName").textContent=state.name;notify("Profile saved.");profilePage()}catch(err){notify("Save failed: "+err.message)}};
+ $("view").innerHTML=`<div class="profile-layout"><section class="panel profile-card"><div class="profile-photo" id="profilePhoto">${photo?`<img src="${photo}" alt="Your profile picture">`:esc(initials(state.name))}</div><h2>${esc(state.name)}</h2><div class="muted">${esc(state.email)}</div><p><span class="badge">${esc(state.role.toUpperCase())}</span></p><label class="btn primary" for="photoInput">Upload / Change photo</label><input id="photoInput" type="file" accept="image/png,image/jpeg,image/webp" hidden><button class="btn" id="removePhoto" style="margin-top:9px">Remove my photo</button><p class="muted">Private photo: only your signed-in account can read it. It is stored in your own Firestore profile document.</p></section><section class="panel"><h2>Personal information</h2><form id="profileForm"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" value="${esc(p.name||state.name)}" required></div><div class="field"><label>Email</label><input value="${esc(state.email)}" disabled></div><div class="field"><label>Phone</label><input name="phone" value="${esc(p.phone||"")}"></div><div class="field"><label>Faculty</label><input name="faculty" value="${esc(p.faculty||"")}" ${state.role==="student"?"disabled":""}></div><div class="field"><label>Department</label><input name="department" value="${esc(p.department||"")}" ${state.role==="student"?"disabled":""}></div><div class="field"><label>Batch</label><input name="batch" value="${esc(p.batch||"")}" ${state.role==="student"?"disabled":""}></div></div><div class="form-actions"><button class="btn primary">Save profile</button></div></form></section></div>`;
+ $("photoInput").onchange=async e=>{const f=e.target.files[0];if(!f)return;if(!["image/jpeg","image/png","image/webp"].includes(f.type)||f.size>5*1024*1024)return notify("Choose JPG, PNG or WEBP under 5MB.");try{const data=await compressImage(f);if(data.length>480000)throw new Error("Image is still too large. Choose a smaller photo.");await setDoc(doc(db,"profiles",state.uid),{photoData:data,photoType:"image/jpeg"},{merge:true});state.profile.photoData=data;state.profile.photoType="image/jpeg";loadPhoto();profilePage();notify("Your private photo has been saved.")}catch(err){notify("Photo save failed: "+err.message)}};
+ $("removePhoto").onclick=async()=>{try{await setDoc(doc(db,"profiles",state.uid),{photoData:null,photoType:null},{merge:true});state.profile.photoData=null;loadPhoto();profilePage()}catch(err){notify("Could not remove photo: "+err.message)}};
+ $("profileForm").onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));try{await setDoc(doc(db,"profiles",state.uid),d,{merge:true});state.profile={...state.profile,...d};state.name=d.name;loadPhoto();$("topName").textContent=state.name;notify("Profile saved.");profilePage()}catch(err){notify("Save failed: "+err.message)}};
+}
+async function compressImage(file){
+ const img=await new Promise((resolve,reject)=>{const u=URL.createObjectURL(file),i=new Image();i.onload=()=>{URL.revokeObjectURL(u);resolve(i)};i.onerror=reject;i.src=u});
+ const max=480,scale=Math.min(1,max/Math.max(img.width,img.height)),canvas=document.createElement("canvas");canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);return canvas.toDataURL("image/jpeg",0.68);
 }
 function settingsPage(){
  const s=state.settings||{};
- $("view").innerHTML=`<section class="panel"><h2>Personal settings</h2><div class="setting-row"><div><b>Language</b><div class="muted">Choose your portal language</div></div><select id="language"><option value="English">English</option><option value="Somali">Somali</option></select></div><div class="setting-row"><div><b>Appearance</b><div class="muted">Portal color preference</div></div><select id="appearance"><option value="light">Light</option><option value="dark">Dark (coming soon)</option></select></div><div class="setting-row"><div><b>Notifications</b><div class="muted">Receive portal notifications</div></div><input id="notifications" type="checkbox" style="width:20px;height:20px"></div><div class="setting-row"><div><b>Change password</b><div class="muted">Update your sign-in password</div></div><button class="btn primary" id="changePassword">Change</button></div><div class="form-actions"><button class="btn primary" id="saveSettings">Save settings</button></div></section><div class="notice">These preferences belong to your signed-in account. Password changes require your current Firebase session and may require recent sign-in.</div>`;
+ $("view").innerHTML=`<section class="panel"><h2>Personal settings</h2><div class="setting-row"><div><b>Language</b><div class="muted">Choose your portal language</div></div><select id="language"><option value="English">English</option><option value="Somali">Somali</option></select></div><div class="setting-row"><div><b>Appearance</b><div class="muted">Portal color preference</div></div><select id="appearance"><option value="light">Light</option><option value="dark">Dark (coming soon)</option></select></div><div class="setting-row"><div><b>Notifications</b><div class="muted">Receive portal notifications</div></div><input id="notifications" type="checkbox" style="width:20px;height:20px"></div><div class="setting-row"><div><b>Change password</b><div class="muted">Update your sign-in password</div></div><button class="btn primary" id="changePassword">Change</button></div><div class="form-actions"><button class="btn primary" id="saveSettings">Save settings</button></div></section><div class="notice">Preferences belong to your signed-in account. Password changes may require you to sign in again.</div>`;
  $("language").value=s.language||"English";$("appearance").value=s.appearance||"light";$("notifications").checked=s.notifications!==false;
  $("saveSettings").onclick=async()=>{const settings={language:$("language").value,appearance:$("appearance").value,notifications:$("notifications").checked};try{await setDoc(doc(db,"profiles",state.uid),{settings},{merge:true});state.settings=settings;notify("Settings saved.")}catch(e){notify("Could not save settings: "+e.message)}};
  $("changePassword").onclick=async()=>{const p=prompt("Enter your new password (at least 6 characters):");if(!p)return;if(p.length<6)return notify("Password must be at least 6 characters.");try{await updatePassword(auth.currentUser,p);notify("Password updated.")}catch(e){notify("Password update failed. You may need to sign in again: "+e.message)}};
 }
-$("loginForm").onsubmit=async e=>{e.preventDefault();$("error").style.display="none";try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}catch(err){showError("Sign-in failed. Check your email and password.")}};
-onAuthStateChanged(auth,async user=>{if(user){try{await boot(user)}catch(e){console.error(e);showError("Could not load portal data: "+e.message)}}else{$("app").style.display="none";$("login").style.display="grid";if(state.photoUrl)URL.revokeObjectURL(state.photoUrl)}});
+$("loginForm").onsubmit=async e=>{e.preventDefault();$("error").style.display="none";try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}catch(err){showError("Sign-in failed. Check your email and password. "+err.message)}};
+onAuthStateChanged(auth,async user=>{if(user){try{await boot(user)}catch(e){console.error(e);showError("Could not load portal data: "+e.message)}}else{$("app").style.display="none";$("login").style.display="grid";revokePhoto()}});
 $("modal").onclick=e=>{if(e.target===$("modal"))closeModal()};
 </script>
 </body>
