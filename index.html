@@ -3,381 +3,171 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>School Management System</title>
+<meta name="theme-color" content="#0756a5">
+<title>University Student Portal</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#f1f5f9;color:#1e293b}
-#login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#2563eb,#1e40af)}
-.lb{width:370px;max-width:92%;background:#fff;padding:32px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,.2)}
-.lb h1{text-align:center;color:#1e40af;margin-bottom:6px}
-.lb p{text-align:center;color:#64748b;margin-bottom:20px}
-.ig{margin-bottom:14px}
-.ig label{display:block;font-weight:bold;margin-bottom:6px}
-input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;background:#fff}
-input:focus,select:focus{outline:0;border-color:#2563eb}
-.b{border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:14px;background:#e2e8f0}
-.p{background:#2563eb;color:#fff}.d{background:#dc2626;color:#fff}.e{background:#f59e0b;color:#fff}.s{background:#16a34a;color:#fff}
-.lb .b{width:100%;padding:13px;font-size:16px}
-#err{display:none;margin-top:14px;padding:10px;background:#fee2e2;color:#b91c1c;border-radius:8px;text-align:center}
-#app{display:none}
-aside{position:fixed;left:0;top:0;width:230px;height:100vh;background:#0f172a;padding:20px 12px;overflow-y:auto}
-aside h2{color:#fff;text-align:center;margin-bottom:20px}
-.n{display:block;width:100%;padding:12px;margin-bottom:6px;border:0;border-radius:8px;background:transparent;color:#fff;text-align:left;font-size:15px;cursor:pointer}
-.n:hover,.n.on{background:#2563eb}
-.lo{background:#dc2626;margin-top:16px}
-main{margin-left:230px;padding:22px}
-.top{background:#fff;padding:16px 20px;border-radius:12px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.top h1{color:#1e40af;font-size:22px}
-.box,.card{background:#fff;padding:20px;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,.06)}
-.welcome{background:#2563eb;color:#fff;padding:24px;border-radius:12px;margin-bottom:18px}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.card h3{color:#64748b;margin-bottom:8px;font-size:16px}
-.num{font-size:30px;font-weight:bold;color:#2563eb}
-.hd{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
-.search{margin-bottom:16px}
-.tw{overflow-x:auto}
-table{width:100%;border-collapse:collapse}
-th,td{padding:11px;border-bottom:1px solid #e2e8f0;text-align:left;white-space:nowrap}
-th{background:#f8fafc;color:#475569}
-.act{display:flex;gap:6px}
-.empty{text-align:center;padding:24px;color:#64748b}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:16px;z-index:9}
-.mf{width:550px;max-width:100%;max-height:90vh;overflow-y:auto;background:#fff;padding:22px;border-radius:12px}
-.mf h2{margin-bottom:16px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.mb2{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
-.ar{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #e2e8f0;gap:10px}
-.ar select{width:140px}
-#al{margin:16px 0}
-@media(max-width:1000px){.cards{grid-template-columns:1fr 1fr}}
-@media(max-width:700px){aside{position:static;width:100%;height:auto;padding:12px}#nav{display:flex;overflow-x:auto;gap:6px}.n{width:auto;white-space:nowrap;margin:0}.lo{margin-top:0}main{margin:0;padding:12px}.cards,.grid{grid-template-columns:1fr}}
-@media print{aside,.top,.b{display:none}main{margin:0}}
+:root{--blue:#0756a5;--blue2:#087bd5;--navy:#092b50;--bg:#f3f7fc;--ink:#18324b;--muted:#718096;--line:#e4ebf3;--white:#fff;--green:#159765;--red:#d64545;--gold:#e6a23c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+#login{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#063a76,#087bd5)}
+.login-card{width:420px;max-width:100%;background:#fff;padding:30px;border-radius:18px;box-shadow:0 20px 60px #001b3b55}.brand{text-align:center;color:var(--blue)}.brand-mark{width:64px;height:64px;border-radius:16px;background:#e8f2ff;display:grid;place-items:center;margin:0 auto 12px;font-size:30px}.login-card h1{font-size:23px;margin:8px 0}.login-card p{color:var(--muted);text-align:center;margin:0 0 24px}
+.field{margin-bottom:14px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}.field input,.field select,.field textarea,.search{width:100%;padding:11px 12px;border:1px solid #d5dfeb;border-radius:9px;background:#fff;color:var(--ink)}.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid #b8d8fa;border-color:var(--blue2)}
+.btn{border:0;border-radius:9px;padding:10px 14px;font-weight:700;background:#eaf0f7;color:#29445f}.btn.primary{background:var(--blue2);color:#fff}.btn.green{background:var(--green);color:#fff}.btn.red{background:var(--red);color:#fff}.btn.gold{background:var(--gold);color:#fff}.btn.full{width:100%;padding:13px}.btn.small{padding:7px 9px;font-size:12px}.btn:disabled{opacity:.55;cursor:not-allowed}
+#error{display:none;background:#fff0f0;color:#b42323;padding:10px;border-radius:8px;margin-top:12px}
+#app{display:none}.sidebar{position:fixed;inset:0 auto 0 0;width:248px;background:var(--navy);color:#fff;padding:20px 13px;overflow:auto;z-index:4}.side-brand{font-size:17px;font-weight:800;text-align:center;padding:8px 5px 22px;line-height:1.4}.side-brand small{display:block;font-size:11px;color:#b8d4ee;font-weight:400}.nav-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#9bb9d5;padding:12px 10px 7px}.nav-btn{display:block;width:100%;border:0;background:transparent;color:#eaf4ff;text-align:left;padding:11px 12px;border-radius:9px;margin:2px 0;font-size:14px}.nav-btn:hover,.nav-btn.active{background:#1769b4;color:#fff}.nav-btn.logout{margin-top:18px;background:#a52f3c}
+main{margin-left:248px;padding:22px;min-height:100vh}.topbar{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.topbar h1{font-size:21px;color:var(--navy);margin:0}.user-chip{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted)}.avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;background:#e5effa;display:grid;place-items:center;color:var(--blue);font-weight:800;border:1px solid #d8e5f2}.avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.welcome{background:linear-gradient(110deg,#0756a5,#1386d8);color:#fff;border-radius:15px;padding:23px;margin-bottom:18px}.welcome h2{margin:0 0 8px;font-size:22px}.welcome p{margin:0;color:#dceeff}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.stat,.panel{background:#fff;border:1px solid var(--line);border-radius:13px;padding:17px;box-shadow:0 3px 12px #18324b08}.stat small{color:var(--muted);font-weight:700}.stat strong{display:block;font-size:27px;color:var(--blue);margin-top:8px}.panel{margin-top:17px}.panel h2,.panel h3{margin:0 0 14px;color:var(--navy)}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.panel-head h2{margin:0}.toolbar{display:flex;gap:8px;flex-wrap:wrap}.search{max-width:320px;margin-bottom:12px}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:620px}th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}th{background:#f5f8fc;color:#52677c;white-space:nowrap}td{color:#314b64}.empty{text-align:center;padding:25px;color:var(--muted)}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}.badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#e9f3ff;color:#0756a5;font-size:11px;font-weight:700}
+.modal{display:none;position:fixed;inset:0;background:#001a35a8;z-index:10;align-items:center;justify-content:center;padding:16px}.modal-card{background:#fff;width:620px;max-width:100%;max-height:90vh;overflow:auto;border-radius:15px;padding:20px}.modal-card h2{margin:0 0 16px;color:var(--navy)}
+.profile-layout{display:grid;grid-template-columns:260px 1fr;gap:16px}.profile-card{text-align:center}.profile-photo{width:112px;height:112px;border-radius:50%;object-fit:cover;background:#e5effa;border:4px solid #eaf3fc;margin:4px auto 12px;display:grid;place-items:center;font-size:34px;color:var(--blue)}.profile-photo img{width:100%;height:100%;border-radius:50%;object-fit:cover}.muted{color:var(--muted);font-size:13px}.setting-row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:13px 0;border-bottom:1px solid var(--line)}.setting-row:last-child{border:0}
+.notice{padding:12px 14px;border-radius:9px;background:#fff8e8;color:#805512;font-size:13px;margin:12px 0}.success{background:#e9f8f0;color:#126a43}.danger{background:#fff0f0;color:#a52f3c}
+@media(max-width:1050px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){.sidebar{position:static;width:100%;height:auto;padding:10px}.side-brand{text-align:left;padding:4px 8px 10px}.nav-label{display:none}#nav{display:flex;overflow-x:auto;gap:5px;padding-bottom:5px}.nav-btn{width:auto;white-space:nowrap;flex:0 0 auto;padding:9px 11px}.nav-btn.logout{margin:0}main{margin:0;padding:12px}.topbar{padding:12px}.topbar h1{font-size:17px}.grid{grid-template-columns:1fr 1fr}.profile-layout{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+@media(max-width:390px){.grid{grid-template-columns:1fr}.user-chip span{display:none}}
 </style>
 </head>
 <body>
-
-<div id="login">
-  <form id="lf" class="lb">
-    <h1 id="lname">🏫 School Management</h1>
-    <p>Administrator Login</p>
-    <div class="ig"><label>Email</label><input id="em" type="email" placeholder="Enter email" autocomplete="username" required></div>
-    <div class="ig"><label>Password</label><input id="pw" type="password" placeholder="Enter password" autocomplete="current-password" required></div>
-    <button class="b p">Login</button>
-    <div id="err">Email ama Password waa khalad.</div>
+<section id="login">
+  <form class="login-card" id="loginForm">
+    <div class="brand"><div class="brand-mark">🎓</div><h1>University Student Portal</h1></div>
+    <p>Sign in to access your academic services</p>
+    <div class="field"><label>Email address</label><input id="email" type="email" autocomplete="username" required placeholder="name@example.com"></div>
+    <div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password" required placeholder="Enter password"></div>
+    <button class="btn primary full" type="submit">Sign in</button><div id="error"></div>
   </form>
-</div>
-
-<div id="app">
-  <aside><h2 id="sname">🏫 SCHOOL</h2><div id="nav"></div></aside>
+</section>
+<section id="app">
+  <aside class="sidebar"><div class="side-brand">🎓 UNIVERSITY PORTAL<small>Student E-Service</small></div><div id="nav"></div></aside>
   <main>
-    <div class="top"><h1 id="title">Dashboard</h1><strong id="who"></strong></div>
+    <header class="topbar"><h1 id="pageTitle">Dashboard</h1><div class="user-chip"><div class="avatar" id="topAvatar">U</div><span id="topName"></span></div></header>
     <div id="view"></div>
   </main>
-</div>
-
-<div id="modal" class="modal"><form id="mf" class="mf"></form></div>
-
+</section>
+<div class="modal" id="modal"><div class="modal-card" id="modalCard"></div></div>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut,updatePassword} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,doc,getDoc,setDoc,collection,getDocs,writeBatch,deleteDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getStorage,ref,uploadBytes,getBytes,deleteObject} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
-// 👇 Ku beddel firebaseConfig-kaaga (Project settings → Your apps → Web)
-const firebaseConfig = {
-  apiKey: "AIzaSyDmr2YsU4xz9DgZnHm2HdNL6p-F-iPi6xk",
-  authDomain: "school-management-system-5bdd0.firebaseapp.com",
-  projectId: "school-management-system-5bdd0",
-  storageBucket: "school-management-system-5bdd0.firebasestorage.app",
-  messagingSenderId: "9371185701",
-  appId: "1:9371185701:web:ea6542d0a4d8b56baf05cc"
+const firebaseConfig={
+ apiKey:"AIzaSyDmr2YsU4xz9DgZnHm2HdNL6p-F-iPi6xk",
+ authDomain:"school-management-system-5bdd0.firebaseapp.com",
+ projectId:"school-management-system-5bdd0",
+ storageBucket:"school-management-system-5bdd0.firebasestorage.app",
+ messagingSenderId:"9371185701",
+ appId:"1:9371185701:web:ea6542d0a4d8b56baf05cc"
 };
-
-const fbApp = initializeApp(firebaseConfig);
-const auth = getAuth(fbApp);
-const db = getFirestore(fbApp);
-const SCHOOL_NAME = "School Management System"; // 👈 magaca dugsiga (beddel dugsi kasta)
-const auth2 = getAuth(initializeApp(firebaseConfig, "secondary")); // si admin-ku u sii jiro marka user cusub la abuuro
-const $ = id => document.getElementById(id);
-const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const today = () => new Date().toISOString().split("T")[0];
-document.title = SCHOOL_NAME; $("lname").textContent = "🏫 " + SCHOOL_NAME; $("sname").textContent = "🏫 " + SCHOOL_NAME;
-const sel = a => a.map(x => [x, x]);
-const grade = m => m>=90?"A+":m>=80?"A":m>=70?"B":m>=60?"C":m>=50?"D":"F";
-
-const KEYS = ["students","classes","teachers","attendance","fees","results"];
-const S = {}; KEYS.forEach(k => S[k] = []);
-const paidOf = id => S.fees.filter(f => f.studentId === id).reduce((a, f) => a + (+f.amount || 0), 0);
-const sName = id => (S.students.find(s => s.id === id) || {}).name || "Unknown";
-const stuOpts = () => S.students.map(s => [s.id, s.name + " (" + s.id + ")"]);
-
-/* Each page: singular name, form fields, table columns */
-const T = {
-  students:{s:"Student",
-    f:[{k:"id",l:"Student ID"},{k:"name",l:"Full Name"},{k:"gender",l:"Gender",o:()=>sel(["Male","Female"])},{k:"className",l:"Class",o:()=>sel(S.classes.map(c=>c.name))},{k:"phone",l:"Phone",opt:1},{k:"fee",l:"Total Fee ($)",ty:"number",opt:1}],
-    c:[["ID",r=>r.id],["Name",r=>r.name],["Gender",r=>r.gender],["Class",r=>r.className],["Phone",r=>r.phone||"-"],["Balance",r=>"$"+((+r.fee||0)-paidOf(r.id)).toFixed(2)]]},
-  classes:{s:"Class",
-    f:[{k:"name",l:"Class Name"},{k:"section",l:"Section"},{k:"teacher",l:"Teacher"}],
-    c:[["Class",r=>r.name],["Section",r=>r.section],["Teacher",r=>r.teacher],["Students",r=>S.students.filter(s=>s.className===r.name).length]]},
-  teachers:{s:"Teacher",
-    f:[{k:"id",l:"Teacher ID"},{k:"name",l:"Full Name"},{k:"subject",l:"Subject"},{k:"phone",l:"Phone",opt:1}],
-    c:[["ID",r=>r.id],["Name",r=>r.name],["Subject",r=>r.subject],["Phone",r=>r.phone||"-"]]},
-  fees:{s:"Payment",
-    f:[{k:"studentId",l:"Student",o:stuOpts},{k:"amount",l:"Amount",ty:"number"},{k:"date",l:"Date",ty:"date"},{k:"method",l:"Method",o:()=>sel(["Cash","Bank","Mobile Money"])}],
-    c:[["Student",r=>sName(r.studentId)],["Amount",r=>"$"+Number(r.amount).toFixed(2)],["Date",r=>r.date],["Method",r=>r.method]]},
-  results:{s:"Result",
-    f:[{k:"studentId",l:"Student",o:stuOpts},{k:"subject",l:"Subject"},{k:"marks",l:"Marks (0-100)",ty:"number",mx:100}],
-    pre:d=>{d.grade=grade(d.marks)},
-    c:[["Student",r=>sName(r.studentId)],["Subject",r=>r.subject],["Marks",r=>r.marks],["Grade",r=>r.grade]]}
+const fb=initializeApp(firebaseConfig),auth=getAuth(fb),db=getFirestore(fb),storage=getStorage(fb);
+const $=id=>document.getElementById(id), today=()=>new Date().toISOString().slice(0,10);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const state={role:"",uid:"",email:"",name:"",studentId:"",page:"dashboard",profile:{},settings:{},photoUrl:null,data:{students:[],teachers:[],classes:[],faculties:[],departments:[],batches:[],attendance:[],fees:[],results:[]}};
+const titles={dashboard:"Dashboard",profile:"My Profile",settings:"My Settings",students:"Students",teachers:"Teachers",faculties:"Faculties",departments:"Departments",batches:"Batches",classes:"Courses & Classes",attendance:"Attendance",fees:"Finance & Fees",results:"Examination Results",users:"User Accounts"};
+const adminPages=["dashboard","students","teachers","faculties","departments","batches","classes","attendance","fees","results","users","profile","settings"];
+const teacherPages=["dashboard","classes","attendance","results","profile","settings"];
+const studentPages=["dashboard","results","attendance","fees","profile","settings"];
+const collections=Object.keys(state.data);
+function initials(n){return (n||"U").trim().split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase()}
+function notify(msg){alert(msg)}
+function showError(msg){$("error").style.display="block";$("error").textContent=msg}
+function setAvatar(el,url,name){el.innerHTML=url?`<img src="${url}" alt="Your profile photo">`:esc(initials(name))}
+function nav(){
+ const pages=state.role==="admin"?adminPages:state.role==="teacher"?teacherPages:studentPages;
+ $("nav").innerHTML=pages.map(p=>`<button class="nav-btn ${state.page===p?"active":""}" data-page="${p}">${({dashboard:"⌂",profile:"◎",settings:"⚙",students:"♙",teachers:"♧",faculties:"▦",departments:"▤",batches:"▣",classes:"▤",attendance:"◷",fees:"＄",results:"▥",users:"♧"})[p]} &nbsp;${titles[p]}</button>`).join("")+`<button class="nav-btn logout" id="logout">⇥ &nbsp;Sign out</button>`;
+ document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>route(b.dataset.page));$("logout").onclick=()=>signOut(auth);
+}
+async function loadPhoto(){
+ if(state.photoUrl)URL.revokeObjectURL(state.photoUrl);state.photoUrl=null;
+ try{const p=state.profile.photoPath;if(!p)return;const bytes=await getBytes(ref(storage,p));state.photoUrl=URL.createObjectURL(new Blob([bytes],{type:state.profile.contentType||"image/jpeg"}));}catch(e){console.warn("Private profile image unavailable",e)}
+ setAvatar($("topAvatar"),state.photoUrl,state.name);
+}
+async function loadData(){
+ for(const k of collections){
+  if(state.role==="teacher"&&!["students","classes","attendance","results","teachers","faculties","departments","batches"].includes(k))continue;
+  if(state.role==="student")continue;
+  try{const snap=await getDocs(collection(db,k));state.data[k]=snap.docs.map(d=>({_id:d.id,...d.data()}));}catch(e){console.warn("Could not load",k,e)}
+ }
+}
+async function boot(user){
+ state.uid=user.uid;state.email=user.email||"";
+ const u=await getDoc(doc(db,"users",user.uid));
+ if(!u.exists()){await signOut(auth);showError("This account has no assigned portal role. Contact the administrator.");return}
+ const ud=u.data();state.role=ud.role||"";state.studentId=ud.studentId||"";state.name=ud.name||user.email||"User";
+ if(!["admin","teacher","student"].includes(state.role)||(state.role==="student"&&!state.studentId)){await signOut(auth);showError("Account role is not valid. Contact administrator.");return}
+ const pr=await getDoc(doc(db,"profiles",user.uid));state.profile=pr.exists()?pr.data():{};
+ state.settings=state.profile.settings||{};
+ if(state.role==="student"){
+  const portal=await getDoc(doc(db,"portal",state.studentId));const pd=portal.exists()?portal.data():{};
+  state.name=pd.name||state.name;state.studentRecord=state.data.students.find(x=>x.id===state.studentId)||{};
+  state.portal=pd;
+ }else await loadData();
+ await loadPhoto();$("topName").textContent=state.name;$("login").style.display="none";$("app").style.display="block";nav();route("dashboard");
+}
+function route(p){state.page=p;nav();$("pageTitle").textContent=titles[p]||"Portal";({dashboard:dashboard,profile:profilePage,settings:settingsPage,students:()=>tablePage("students"),teachers:()=>tablePage("teachers"),faculties:()=>tablePage("faculties"),departments:()=>tablePage("departments"),batches:()=>tablePage("batches"),classes:()=>tablePage("classes"),attendance:()=>tablePage("attendance"),fees:()=>tablePage("fees"),results:()=>tablePage("results"),users:usersPage})[p]?.()}
+function dashboard(){
+ const d=state.data, student=state.role==="student";
+ const cards=student?[["My Results",(state.portal?.results||[]).length],["Attendance Records",(state.portal?.att||[]).length],["Fees Paid",(state.portal?.fees||[]).reduce((a,x)=>a+(+x.amount||0),0).toFixed(2)]]:[["Students",d.students.length],["Teachers",d.teachers.length],["Faculties",d.faculties.length],["Courses / Classes",d.classes.length],["Batches",d.batches.length],["Results",d.results.length]];
+ $("view").innerHTML=`<section class="welcome"><h2>Welcome, ${esc(state.name)} 👋</h2><p>${student?"Your personal academic services":"Manage university academic services from one place."}</p></section><div class="grid">${cards.map(([a,b])=>`<div class="stat"><small>${a}</small><strong>${typeof b==="number"?b:esc(b)}</strong></div>`).join("")}</div><section class="panel"><h2>Quick services</h2><div class="toolbar">${(student?["results","attendance","fees","profile","settings"]:["students","teachers","classes","attendance","results","profile","settings"]).map(p=>`<button class="btn" data-quick="${p}">${titles[p]}</button>`).join("")}</div></section>`;
+ document.querySelectorAll("[data-quick]").forEach(b=>b.onclick=()=>route(b.dataset.quick));
+}
+const schemas={
+ students:[["id","Student ID"],["name","Full name"],["email","Email"],["gender","Gender"],["faculty","Faculty"],["department","Department"],["batch","Batch"],["className","Course / Class"],["phone","Phone"]],
+ teachers:[["id","Teacher ID"],["name","Full name"],["email","Email"],["subject","Subject"],["phone","Phone"]],
+ faculties:[["name","Faculty name"],["code","Faculty code"]],
+ departments:[["name","Department name"],["faculty","Faculty"]],
+ batches:[["name","Batch name"],["faculty","Faculty"],["academicYear","Academic year"]],
+ classes:[["name","Course / Class"],["code","Course code"],["faculty","Faculty"],["department","Department"],["batch","Batch"],["semester","Semester"],["teacher","Teacher"]],
+ attendance:[["studentId","Student ID"],["date","Date"],["course","Course"],["status","Status"]],
+ fees:[["studentId","Student ID"],["amount","Amount"],["date","Date"],["method","Method"]],
+ results:[["studentId","Student ID"],["course","Course / Subject"],["semester","Semester"],["examType","Exam type"],["marks","Marks"],["grade","Grade"]]
 };
-const PAGES = [["dashboard","🏠","Dashboard"],["students","👨‍🎓","Students"],["classes","🏫","Classes"],["teachers","👨‍🏫","Teachers"],["attendance","📅","Attendance"],["fees","💰","Fees"],["results","📊","Results"],["reports","📄","Reports"],["users","🔑","Users"],["myfees","💰","My Fees"],["myresults","📊","My Results"],["myatt","📅","My Attendance"]];
-let page = "dashboard", cur = null;
-
-const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-const SNAP = {}; KEYS.forEach(k => SNAP[k] = {});
-const snapOf = k => { SNAP[k] = {}; S[k].forEach(r => SNAP[k][r._id] = JSON.stringify(r)); };
-/* Record kasta document u gaar ah: kaliya wixii beddelmay ayaa la qoraa */
-async function flush(k){
-  const ops = [];
-  S[k].forEach(r => { if (!r._id) r._id = newId(); const j = JSON.stringify(r); if (SNAP[k][r._id] !== j) ops.push(["s", r._id, r, j]); });
-  Object.keys(SNAP[k]).forEach(id => { if (!S[k].some(r => r._id === id)) ops.push(["d", id]); });
-  for (let i = 0; i < ops.length; i += 400) {
-    const bt = writeBatch(db);
-    ops.slice(i, i + 400).forEach(o => o[0] === "s" ? bt.set(doc(db, k, o[1]), o[2]) : bt.delete(doc(db, k, o[1])));
-    await bt.commit();
-  }
-  ops.forEach(o => { if (o[0] === "s") SNAP[k][o[1]] = o[3]; else delete SNAP[k][o[1]]; });
+function tablePage(k){
+ const rows=state.data[k]||[],cols=schemas[k]||[];
+ if(state.role==="student"){
+  const portal=state.portal||{};
+  const arr=k==="results"?(portal.results||[]):k==="attendance"?(portal.att||[]):k==="fees"?(portal.fees||[]):[];
+  $("view").innerHTML=tableHTML(titles[k],cols,arr,false);return;
+ }
+ if(state.role==="teacher"&&["students","classes","attendance","results"].includes(k)){
+  // Teacher sees academic information; writes are restricted by Firestore rules.
+ }
+ $("view").innerHTML=tableHTML(titles[k],cols,rows,state.role==="admin");
+ if(state.role==="admin")$("addRecord").onclick=()=>editRecord(k,-1);
+ const q=$("tableSearch");if(q)q.oninput=()=>filterTable(k);
 }
-const save = (k, ids = []) => {
-  flush(k).catch(() => alert("Xogta lama keydin. Hubi internet-ka iyo Rules-ka."));
-  sync(k, ids);
-};
-/* Portal: hal document arday kasta (fees, results, attendance) si ardaygu u arko kuwiisa kaliya */
-function sync(k, ids){
-  if (!["students","fees","results","attendance"].includes(k)) return;
-  [...new Set(ids)].filter(Boolean).forEach(id => {
-    const ref = doc(db, "portal", id), st = S.students.find(s => s.id === id);
-    const rs = S.results.filter(r => r.studentId === id);
-    const at = S.attendance.filter(a => a.studentId === id).map(a => ({ date: a.date, status: a.status }));
-    if (ROLE === "teacher") { if (st) setDoc(ref, { results: rs, att: at }, { merge: true }).catch(() => {}); return; }
-    if (st) setDoc(ref, { name: st.name, className: st.className, due: Number(st.fee) || 0, fees: S.fees.filter(f => f.studentId === id), results: rs, att: at }).catch(() => {});
-    else deleteDoc(ref).catch(() => {});
-  });
+function tableHTML(title,cols,rows,editable){
+ return `<section class="panel"><div class="panel-head"><h2>${title}</h2>${editable?`<button class="btn primary" id="addRecord">+ Add record</button>`:""}</div><input class="search" id="tableSearch" placeholder="Search records..."><div class="table-wrap"><table><thead><tr>${cols.map(c=>`<th>${c[1]}</th>`).join("")}${editable?"<th>Actions</th>":""}</tr></thead><tbody id="tableBody">${rows.length?rows.map((r,i)=>`<tr>${cols.map(c=>`<td>${esc(r[c[0]]??"-")}</td>`).join("")}${editable?`<td><button class="btn small gold" data-edit="${i}">Edit</button> <button class="btn small red" data-delete="${i}">Delete</button></td>`:""}</tr>`).join(""):`<tr><td class="empty" colspan="${cols.length+(editable?1:0)}">No records found.</td></tr>`}</tbody></table></div></section>`;
 }
-function syncAll(){ S.students.forEach(s => sync("students", [s.id])); alert("Student portal waa la cusboonaysiiyay."); }
-
-/* ---------- Views ---------- */
-function stats(){
-  const fee = S.fees.reduce((a,f) => a + (+f.amount || 0), 0);
-  return [["Students",S.students.length],["Classes",S.classes.length],["Teachers",S.teachers.length],["Fees Paid","$"+fee.toFixed(2)]].filter(x => ROLE !== "teacher" || x[0] !== "Fees Paid")
-    .map(([a,b]) => `<div class="card"><h3>${a}</h3><div class="num">${b}</div></div>`).join("");
+function filterTable(k){const q=$("tableSearch").value.toLowerCase();document.querySelectorAll("#tableBody tr").forEach(tr=>tr.style.display=tr.textContent.toLowerCase().includes(q)?"":"none")}
+function editRecord(k,i){
+ const cols=schemas[k],old=i<0?{}:state.data[k][i];
+ $("modalCard").innerHTML=`<h2>${i<0?"Add":"Edit"} ${titles[k].replace(/s$/,"")}</h2><form id="recordForm"><div class="form-grid">${cols.map(([key,label])=>`<div class="field"><label>${label}</label><input name="${key}" value="${esc(old[key]??"")}" ${["marks","amount"].includes(key)?'type="number" min="0"':''} ${key==="date"?'type="date"':""} required></div>`).join("")}</div><div class="form-actions"><button type="button" class="btn" id="cancelModal">Cancel</button><button class="btn primary">Save</button></div></form>`;
+ $("modal").style.display="flex";$("cancelModal").onclick=closeModal;
+ $("recordForm").onsubmit=async e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.target));if(data.marks!==undefined){data.marks=Number(data.marks);data.grade=data.marks>=90?"A+":data.marks>=80?"A":data.marks>=70?"B":data.marks>=60?"C":data.marks>=50?"D":"F"}if(data.amount!==undefined)data.amount=Number(data.amount);
+ const id=old._id||crypto.randomUUID();try{await setDoc(doc(db,k,id),data);if(i<0)state.data[k].push({_id:id,...data});else state.data[k][i]={_id:id,...data};closeModal();route(k)}catch(err){notify("Save failed: "+err.message)}};
 }
-function dash(){
-  $("view").innerHTML = `<div class="welcome"><h2>Welcome to School Management System 👋</h2><p style="margin-top:8px">Manage your school from one place.</p></div><div class="cards">${stats()}</div>`;
-}
-function rep(){
-  $("view").innerHTML = `<div class="box"><h2>School Reports</h2><p style="color:#64748b;margin:6px 0 18px">Current school statistics</p><div class="cards">${stats()}</div><button class="b p" style="margin-top:18px" onclick="print()">🖨 Print Report</button> <button class="b s" style="margin-top:18px" onclick="syncAll()">🔄 Sync Student Portal</button> <button class="b" style="margin-top:18px" onclick="backup()">💾 Backup</button> <button class="b" style="margin-top:18px" onclick="migrate()">📥 Import old data</button></div>`;
-}
-function list(k){
-  const t = T[k];
-  $("view").innerHTML = `<div class="box"><div class="hd"><h2>${t.s}s</h2><div class="act"><button class="b" onclick="exportCSV('${k}')">⬇ CSV</button><button class="b p" onclick="openForm('${k}',-1)">+ Add ${t.s}</button></div></div>
-  <input id="q" class="search" placeholder="Search..." oninput="rows('${k}')">
-  <div class="tw"><table><thead><tr><th>#</th>${t.c.map(c=>`<th>${c[0]}</th>`).join("")}<th>Actions</th></tr></thead><tbody id="tb"></tbody></table></div></div>`;
-  rows(k);
-}
-function rows(k){
-  const t = T[k], q = ($("q").value || "").toLowerCase();
-  const h = S[k].map((r,i)=>[r,i]).filter(([r]) => t.c.map(c=>c[1](r)).join(" ").toLowerCase().includes(q))
-    .map(([r,i]) => `<tr><td>${i+1}</td>${t.c.map(c=>`<td>${esc(c[1](r))}</td>`).join("")}<td><div class="act"><button class="b e" onclick="openForm('${k}',${i})">Edit</button><button class="b d" onclick="del('${k}',${i})">Delete</button></div></td></tr>`).join("");
-  $("tb").innerHTML = h || `<tr><td colspan="9" class="empty">Nothing found.</td></tr>`;
-}
-function att(){
-  $("view").innerHTML = `<div class="box"><h2>Attendance</h2><div class="grid" style="margin-top:14px">
-  <div class="ig"><label>Date</label><input type="date" id="ad" value="${today()}" onchange="attList()"></div>
-  <div class="ig"><label>Class</label><select id="ac" onchange="attList()"><option value="">Select Class</option>${S.classes.map(c=>`<option value="${esc(c.name)}">${esc(c.name)} - ${esc(c.section)}</option>`).join("")}</select></div></div>
-  <div id="al"></div><button class="b s" onclick="attSave()">Save Attendance</button></div>`;
-  attList();
-}
-function attList(){
-  const c = $("ac").value, d = $("ad").value, st = S.students.filter(s => s.className === c);
-  $("al").innerHTML = !c ? `<p class="empty">Select a class first.</p>` : !st.length ? `<p class="empty">No students in this class.</p>` :
-    st.map(s => {
-      const o = S.attendance.find(a => a.date===d && a.className===c && a.studentId===s.id), v = o ? o.status : "Present";
-      return `<div class="ar"><span>${esc(s.name)}</span><select data-id="${esc(s.id)}">${["Present","Absent","Late"].map(x=>`<option ${x===v?"selected":""}>${x}</option>`).join("")}</select></div>`;
-    }).join("");
-}
-function attSave(){
-  const c = $("ac").value, d = $("ad").value;
-  if (!c || !d) return alert("Select date and class first.");
-  S.attendance = S.attendance.filter(a => !(a.date===d && a.className===c));
-  document.querySelectorAll("#al select").forEach(s => S.attendance.push({_id:(d + "_" + c + "_" + s.dataset.id).replace(/[\/\s]/g, "-"), date:d, className:c, studentId:s.dataset.id, status:s.value}));
-  save("attendance", S.students.filter(s => s.className === c).map(s => s.id)); alert("Attendance saved successfully.");
-}
-
-/* ---------- Student portal views ---------- */
-function sdash(){
-  $("view").innerHTML = `<div class="welcome"><h2>Welcome, ${esc(PORTAL.name || "")} 👋</h2><p style="margin-top:8px">Class: ${esc(PORTAL.className || "-")}</p></div>`;
-}
-function simple(h, head, rows){
-  $("view").innerHTML = `<div class="box"><h2>${h}</h2><div class="tw" style="margin-top:14px"><table><thead><tr>${head.map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${rows.length ? rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("") : `<tr><td colspan="9" class="empty">Nothing found.</td></tr>`}</tbody></table></div></div>`;
-}
-function myfees(){
-  const f = PORTAL.fees || [], tot = f.reduce((a,x) => a + (+x.amount || 0), 0);
-  simple("My Fees | Total: $" + (Number(PORTAL.due) || 0).toFixed(2) + " | Paid: $" + tot.toFixed(2) + " | Balance: $" + ((Number(PORTAL.due) || 0) - tot).toFixed(2), ["Date","Amount","Method"], f.map(x => [x.date, "$" + Number(x.amount).toFixed(2), x.method]));
-}
-function myres(){
-  simple("My Results", ["Subject","Marks","Grade"], (PORTAL.results || []).map(x => [x.subject, x.marks, x.grade]));
-}
-
-/* ---------- Users (admin kaliya) ---------- */
+function closeModal(){$("modal").style.display="none"}
 async function usersPage(){
-  $("view").innerHTML = `<div class="box"><p class="empty">Loading...</p></div>`;
-  let ul = [];
-  try { ul = (await getDocs(collection(db, "users"))).docs.map(d => ({ uid: d.id, ...d.data() })); }
-  catch (x) { $("view").innerHTML = `<div class="box"><p class="empty">Lama akhrin karo. Hubi Rules-ka.</p></div>`; return; }
-  $("view").innerHTML = `<div class="box"><h2>Create User</h2><div class="grid" style="margin-top:14px">
-    <div class="ig"><label>Email</label><input id="ue" type="email"></div>
-    <div class="ig"><label>Password (min 6)</label><input id="up" type="text"></div>
-    <div class="ig"><label>Role</label><select id="ur" onchange="toggleS()"><option value="teacher">teacher</option><option value="student">student</option><option value="admin">admin</option></select></div>
-    <div class="ig" id="usw" style="display:none"><label>Student</label><select id="us"><option value="">Select</option>${S.students.map(s => `<option value="${esc(s.id)}">${esc(s.name)} (${esc(s.id)})</option>`).join("")}</select></div>
-    <div class="ig"><label>Name (optional)</label><input id="un"></div></div>
-    <button class="b p" onclick="createUser()">Create User</button></div>
-    <div class="box" style="margin-top:16px"><h2>Users</h2><div class="tw" style="margin-top:14px"><table><thead><tr><th>Email</th><th>Name</th><th>Role</th><th>Student ID</th><th></th></tr></thead><tbody>${ul.map(u => `<tr><td>${esc(u.email || u.uid)}</td><td>${esc(u.name || "-")}</td><td>${esc(u.role)}</td><td>${esc(u.studentId || "-")}</td><td><button class="b d" onclick="delUser('${esc(u.uid)}')">Remove</button></td></tr>`).join("")}</tbody></table></div></div>`;
+ if(state.role!=="admin")return;
+ $("view").innerHTML=`<section class="panel"><h2>User accounts</h2><p class="muted">Create accounts using Firebase Authentication, then assign a role in the users collection. Account creation is intentionally not performed from this page to avoid signing out the administrator or exposing passwords.</p><div class="notice">Create users in Firebase Authentication, then add a matching Firestore document in <b>users</b> with role: admin, teacher, or student. For students include studentId.</div></section>`;
 }
-function toggleS(){ $("usw").style.display = $("ur").value === "student" ? "block" : "none"; }
-async function createUser(){
-  const email = $("ue").value.trim(), pw = $("up").value, role = $("ur").value, sid = $("us").value;
-  let name = $("un").value.trim();
-  if (!email || pw.length < 6) return alert("Geli email iyo password (ugu yaraan 6 xaraf).");
-  if (role === "student" && !sid) return alert("Dooro ardayga.");
-  if (role === "student" && !name) name = (S.students.find(s => s.id === sid) || {}).name || "";
-  try {
-    const cred = await createUserWithEmailAndPassword(auth2, email, pw);
-    const data = { email, role, name };
-    if (role === "student") data.studentId = sid;
-    await setDoc(doc(db, "users", cred.user.uid), data);
-    await signOut(auth2);
-    alert("User waa la abuuray.");
-    usersPage();
-  } catch (x) { alert("Lama abuurin: " + (x.code || x.message)); }
+async function profilePage(){
+ const p=state.profile||{},photo=state.photoUrl;
+ $("view").innerHTML=`<div class="profile-layout"><section class="panel profile-card"><div class="profile-photo" id="profilePhoto">${photo?`<img src="${photo}" alt="Your profile picture">`:esc(initials(state.name))}</div><h2>${esc(state.name)}</h2><div class="muted">${esc(state.email)}</div><p><span class="badge">${esc(state.role.toUpperCase())}</span></p><label class="btn primary" for="photoInput">Upload / Change photo</label><input id="photoInput" type="file" accept="image/png,image/jpeg,image/webp" hidden><button class="btn" id="removePhoto" style="margin-top:9px">Remove my photo</button><p class="muted">Only you can access your private profile photo.</p></section><section class="panel"><h2>Personal information</h2><form id="profileForm"><div class="form-grid"><div class="field"><label>Full name</label><input name="name" value="${esc(p.name||state.name)}" required></div><div class="field"><label>Email</label><input value="${esc(state.email)}" disabled></div><div class="field"><label>Phone</label><input name="phone" value="${esc(p.phone||"")}"></div><div class="field"><label>Faculty</label><input name="faculty" value="${esc(p.faculty||"")}" ${state.role==="student"?"disabled":""}></div><div class="field"><label>Department</label><input name="department" value="${esc(p.department||"")}" ${state.role==="student"?"disabled":""}></div><div class="field"><label>Batch</label><input name="batch" value="${esc(p.batch||"")}" ${state.role==="student"?"disabled":""}></div></div><div class="form-actions"><button class="btn primary">Save profile</button></div></form></section></div>`;
+ $("photoInput").onchange=async e=>{const f=e.target.files[0];if(!f)return;if(!["image/jpeg","image/png","image/webp"].includes(f.type)||f.size>2*1024*1024)return notify("Choose JPG, PNG or WEBP under 2MB.");try{const path=`profilePhotos/${state.uid}/avatar`;await uploadBytes(ref(storage,path),f,{contentType:f.type});await setDoc(doc(db,"profiles",state.uid),{photoPath:path,contentType:f.type},{merge:true});state.profile.photoPath=path;state.profile.contentType=f.type;await loadPhoto();profilePage();notify("Your photo has been updated.")}catch(err){notify("Upload failed: "+err.message)}};
+ $("removePhoto").onclick=async()=>{try{if(state.profile.photoPath)await deleteObject(ref(storage,state.profile.photoPath));await setDoc(doc(db,"profiles",state.uid),{photoPath:null,contentType:null},{merge:true});state.profile.photoPath=null;await loadPhoto();profilePage()}catch(err){notify("Could not remove photo: "+err.message)}};
+ $("profileForm").onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));try{await setDoc(doc(db,"profiles",state.uid),d,{merge:true});state.profile={...state.profile,...d};state.name=d.name;await loadPhoto();$("topName").textContent=state.name;notify("Profile saved.");profilePage()}catch(err){notify("Save failed: "+err.message)}};
 }
-async function delUser(uid){
-  if (uid === auth.currentUser.uid) return alert("Naftaada ma tirtiri kartid.");
-  if (!confirm("Ka saar user-kan helitaanka (access)?")) return;
-  try { await deleteDoc(doc(db, "users", uid)); usersPage(); }
-  catch (x) { alert("Lama tirtirin. Hubi Rules-ka."); }
+function settingsPage(){
+ const s=state.settings||{};
+ $("view").innerHTML=`<section class="panel"><h2>Personal settings</h2><div class="setting-row"><div><b>Language</b><div class="muted">Choose your portal language</div></div><select id="language"><option value="English">English</option><option value="Somali">Somali</option></select></div><div class="setting-row"><div><b>Appearance</b><div class="muted">Portal color preference</div></div><select id="appearance"><option value="light">Light</option><option value="dark">Dark (coming soon)</option></select></div><div class="setting-row"><div><b>Notifications</b><div class="muted">Receive portal notifications</div></div><input id="notifications" type="checkbox" style="width:20px;height:20px"></div><div class="setting-row"><div><b>Change password</b><div class="muted">Update your sign-in password</div></div><button class="btn primary" id="changePassword">Change</button></div><div class="form-actions"><button class="btn primary" id="saveSettings">Save settings</button></div></section><div class="notice">These preferences belong to your signed-in account. Password changes require your current Firebase session and may require recent sign-in.</div>`;
+ $("language").value=s.language||"English";$("appearance").value=s.appearance||"light";$("notifications").checked=s.notifications!==false;
+ $("saveSettings").onclick=async()=>{const settings={language:$("language").value,appearance:$("appearance").value,notifications:$("notifications").checked};try{await setDoc(doc(db,"profiles",state.uid),{settings},{merge:true});state.settings=settings;notify("Settings saved.")}catch(e){notify("Could not save settings: "+e.message)}};
+ $("changePassword").onclick=async()=>{const p=prompt("Enter your new password (at least 6 characters):");if(!p)return;if(p.length<6)return notify("Password must be at least 6 characters.");try{await updatePassword(auth.currentUser,p);notify("Password updated.")}catch(e){notify("Password update failed. You may need to sign in again: "+e.message)}};
 }
-
-function myatt(){
-  const a = PORTAL.att || [], p = a.filter(x => x.status === "Present").length;
-  simple("My Attendance | Present: " + p + " / " + a.length, ["Date","Status"], [...a].sort((x, y) => y.date.localeCompare(x.date)).map(x => [x.date, x.status]));
-}
-
-/* ---------- Backup / Export / Import ---------- */
-function dl(name, text, type){ const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; a.click(); }
-function backup(){ dl("school-backup-" + today() + ".json", JSON.stringify(S, null, 1), "application/json"); }
-function exportCSV(k){
-  const t = T[k], q = v => '"' + String(v ?? "").replace(/"/g, '""') + '"';
-  dl(k + ".csv", "\ufeff" + [t.c.map(c => q(c[0])).join(",")].concat(S[k].map(r => t.c.map(c => q(c[1](r))).join(","))).join("\n"), "text/csv");
-}
-async function migrate(){
-  if (!confirm("Soo gudbi xogtii hore (school/*)?")) return;
-  try {
-    for (const k of KEYS) {
-      const g = await getDoc(doc(db, "school", k)), items = g.exists() ? (g.data().items || []) : [];
-      items.forEach(r => { if (!r._id) r._id = k === "attendance" ? (r.date + "_" + r.className + "_" + r.studentId).replace(/[\/\s]/g, "-") : newId(); if (!S[k].some(x => x._id === r._id)) S[k].push(r); });
-      await flush(k);
-    }
-    S.students.forEach(st => sync("students", [st.id]));
-    alert("Waa la soo gudbiyay."); route();
-  } catch (x) { alert("Lama gudbin: " + (x.code || x.message)); }
-}
-
-/* ---------- Add / edit / delete ---------- */
-function openForm(k, i){
-  const t = T[k], r = i < 0 ? {} : S[k][i]; cur = {k, i};
-  $("mf").innerHTML = `<h2>${i<0?"Add":"Edit"} ${t.s}</h2><div class="grid">${t.f.map(f => `<div class="ig"><label>${f.l}</label>` +
-    (f.o ? `<select name="${f.k}" ${f.opt?"":"required"}><option value="">Select</option>${f.o().map(([v,l])=>`<option value="${esc(v)}" ${v===r[f.k]?"selected":""}>${esc(l)}</option>`).join("")}</select>`
-         : `<input name="${f.k}" type="${f.ty||"text"}" ${f.opt?"":"required"} ${f.ty==="number"?`min="0" step="any"`:""} ${f.mx?`max="${f.mx}"`:""} value="${esc(r[f.k] ?? (f.ty==="date" ? today() : ""))}">`) + `</div>`).join("")}</div>
-    <div class="mb2"><button type="button" class="b" onclick="closeM()">Cancel</button><button class="b p">Save ${t.s}</button></div>`;
-  $("modal").style.display = "flex";
-}
-function closeM(){ $("modal").style.display = "none"; }
-function del(k, i){
-  const r = S[k][i];
-  if (!confirm("Delete " + (r.name || "this record") + "?")) return;
-  S[k].splice(i, 1); save(k, [r.studentId || r.id]); route();
-}
-$("mf").onsubmit = e => {
-  e.preventDefault();
-  const {k, i} = cur, t = T[k], d = {};
-  new FormData($("mf")).forEach((v, n) => d[n] = String(v).trim());
-  t.f.forEach(f => { if (f.ty === "number") d[f.k] = +d[f.k]; });
-  if (d.id && S[k].some((x, j) => x.id === d.id && j !== i)) return alert("This ID already exists.");
-  if (t.pre) t.pre(d);
-  const old = i < 0 ? null : S[k][i];
-  d._id = old ? old._id : newId();
-  i < 0 ? S[k].push(d) : S[k][i] = d;
-  save(k, [old && (old.studentId || old.id), d.studentId || d.id]); closeM(); route();
-};
-$("modal").onclick = e => { if (e.target === $("modal")) closeM(); };
-
-/* ---------- Navigation ---------- */
-function route(p){
-  page = p || page;
-  document.querySelectorAll(".n[data-p]").forEach(b => b.classList.toggle("on", b.dataset.p === page));
-  $("title").textContent = PAGES.find(x => x[0] === page)[2];
-  page === "dashboard" ? (ROLE === "student" ? sdash() : dash()) : page === "attendance" ? att() : page === "reports" ? rep() : page === "myfees" ? myfees() : page === "myresults" ? myres() : page === "myatt" ? myatt() : page === "users" ? usersPage() : list(page);
-}
-let ROLE = "admin", SID = "", NAME = "", PORTAL = {};
-const ALLOWED = { teacher: ["dashboard","attendance","results"], student: ["dashboard","myfees","myresults","myatt"] };
-function buildNav(){
-  const pg = ROLE === "admin" ? PAGES.filter(p => !["myfees","myresults","myatt"].includes(p[0])) : PAGES.filter(p => ALLOWED[ROLE].includes(p[0]));
-  $("nav").innerHTML = pg.map(([id,ic,tt]) => `<button class="n" data-p="${id}">${ic} ${tt}</button>`).join("") + `<button class="n lo" id="lo">🚪 Logout</button>`;
-  document.querySelectorAll(".n[data-p]").forEach(b => b.onclick = () => route(b.dataset.p));
-  $("lo").onclick = () => signOut(auth);
-}
-
-Object.assign(window, { openForm, closeM, del, rows, attList, attSave, syncAll, createUser, delUser, toggleS, backup, exportCSV, migrate });
-
-/* ---------- Login (Firebase Authentication) ---------- */
-$("lf").onsubmit = async e => {
-  e.preventDefault();
-  $("err").style.display = "none";
-  try { await signInWithEmailAndPassword(auth, $("em").value.trim(), $("pw").value); }
-  catch (x) { $("err").style.display = "block"; $("pw").value = ""; }
-};
-
-onAuthStateChanged(auth, async user => {
-  if (user) {
-    try {
-      const r = await getDoc(doc(db, "users", user.uid));
-      ROLE = r.exists() ? r.data().role : "";
-      SID = r.exists() ? (r.data().studentId || "") : "";
-      NAME = r.exists() ? (r.data().name || "") : "";
-    } catch (x) { ROLE = ""; }
-    if (ROLE !== "admin" && ROLE !== "teacher" && !(ROLE === "student" && SID)) {
-      alert("Account-kan door (role) ma leh. La xiriir admin-ka.");
-      signOut(auth);
-      return;
-    }
-    buildNav();
-    try {
-      if (ROLE === "student") { const p = await getDoc(doc(db, "portal", SID)); PORTAL = p.exists() ? p.data() : {}; }
-      else await Promise.all((ROLE === "teacher" ? ["students","classes","attendance","results"] : KEYS).map(async k => {
-        const s = await getDocs(collection(db, k));
-        S[k] = s.docs.map(d => ({ _id: d.id, ...d.data() })).sort((a, b) => a._id.localeCompare(b._id));
-        snapOf(k);
-      }));
-    } catch (x) { alert("Xogta lama soo akhrin karo. Hubi Rules-ka."); }
-    $("who").textContent = (NAME || user.email) + " (" + ROLE + ")";
-    $("login").style.display = "none";
-    $("app").style.display = "block";
-    route("dashboard");
-  } else {
-    $("app").style.display = "none";
-    $("login").style.display = "flex";
-  }
-});
+$("loginForm").onsubmit=async e=>{e.preventDefault();$("error").style.display="none";try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}catch(err){showError("Sign-in failed. Check your email and password.")}};
+onAuthStateChanged(auth,async user=>{if(user){try{await boot(user)}catch(e){console.error(e);showError("Could not load portal data: "+e.message)}}else{$("app").style.display="none";$("login").style.display="grid";if(state.photoUrl)URL.revokeObjectURL(state.photoUrl)}});
+$("modal").onclick=e=>{if(e.target===$("modal"))closeModal()};
 </script>
 </body>
 </html>
